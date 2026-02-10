@@ -3,72 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formatura Dra. Rafaella Chaveiro</title>
-    <meta name="description" content="Celebre a formatura em Medicina da Dra. Rafaella Chaveiro - 20 de Dezembro de 2026">
+    <title>Formatura Dra. Rafaella Chaveiro | Medicina 2026</title>
 
-    <!-- Open Graph / WhatsApp / Facebook -->
-    <meta property="og:type" content="website">
+    <!-- Open Graph / Social -->
     <meta property="og:title" content="Formatura Dra. Rafaella Chaveiro">
-    <meta property="og:description" content="Venha celebrar a formatura em Medicina da Dra. Rafaella Chaveiro! 20 de Dezembro de 2026.">
+    <meta property="og:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Dezembro de 2026.">
     <meta property="og:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
-
-    <!-- Twitter -->
+    <meta property="og:url" content="https://rafaellachaveiro.com.br">
+    <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Formatura Dra. Rafaella Chaveiro">
-    <meta name="twitter:description" content="Venha celebrar a formatura em Medicina da Dra. Rafaella Chaveiro! 20 de Dezembro de 2026.">
+    <meta name="twitter:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro!">
     <meta name="twitter:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
-
     <link rel="icon" type="image/png" href="rafaella-foto.png">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        html {
-            scroll-behavior: smooth;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Firebase para o mural de recados -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Playfair Display', Georgia, serif;
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0fdf4 100%);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: #faf9f6;
             min-height: 100vh;
-            position: relative;
             overflow-x: hidden;
+            color: #2c2c2c;
         }
 
-        /* Decorative Elements */
-        /* Hero Section */
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(250,249,246,0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 40px;
+            box-shadow: 0 1px 30px rgba(0,0,0,0.06);
+        }
+
+        .nav a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav.scrolled a { color: #5c4a32; }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s;
+        }
+
+        .nav a:hover::after { width: 100%; }
+
+        /* ===== HERO ===== */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             position: relative;
-            z-index: 1;
+            background: linear-gradient(160deg, #1a1a2e 0%, #1e2a3a 30%, #2d3a4a 60%, #3a4a5a 100%);
+            overflow: hidden;
         }
 
-        /* Profile Photo */
-        .profile-container {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
-            padding: 5px;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(212,175,105,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to top, #faf9f6, transparent);
+            pointer-events: none;
+        }
+
+        .hero-ornament {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: rgba(212,175,105,0.4);
+            letter-spacing: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 20px 50px rgba(22, 163, 74, 0.3);
-            animation: float 3s ease-in-out infinite;
+            animation: fadeIn 1s ease 0.2s both;
+        }
+
+        .profile-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, rgba(212,175,105,0.5), rgba(212,175,105,0.15));
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease 0.3s both;
+            position: relative;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            border: 1px solid rgba(212,175,105,0.2);
+            border-radius: 50%;
+            animation: spinSlow 20s linear infinite;
+        }
+
+        .profile-container::after {
+            content: '';
+            position: absolute;
+            inset: -30px;
+            border: 1px dashed rgba(212,175,105,0.1);
+            border-radius: 50%;
+            animation: spinSlow 30s linear infinite reverse;
         }
 
         .profile-inner {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: #f0fdf4;
             overflow: hidden;
         }
 
@@ -78,183 +169,167 @@
             object-fit: cover;
         }
 
-        .subtitle {
-            font-size: 14px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: #16a34a;
-            margin-bottom: 20px;
+        .hero-label {
             font-family: 'Montserrat', sans-serif;
-        }
-
-        h1 {
-            font-size: clamp(36px, 8vw, 72px);
-            font-weight: 400;
-            color: #166534;
-            text-align: center;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: rgba(212,175,105,0.7);
             margin-bottom: 15px;
-            line-height: 1.1;
+            animation: fadeInUp 0.8s ease 0.5s both;
         }
 
-        h1 span {
-            background: linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
+        .hero h1 {
+            font-size: clamp(42px, 9vw, 80px);
+            font-weight: 300;
+            color: white;
+            text-align: center;
+            line-height: 1.05;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            font-weight: 400;
+            background: linear-gradient(90deg, #d4af69, #e8c97a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-style: italic;
         }
 
-        .tagline {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 50px;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-
-        .tagline-text {
-            color: #15803d;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: rgba(212,175,105,0.4);
+            margin: 25px 0;
+            animation: fadeIn 1s ease 0.8s both;
         }
 
         /* Countdown */
         .countdown-container {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 40px 50px;
-            box-shadow: 0 25px 50px -12px rgba(22, 163, 74, 0.15);
-            border: 2px solid rgba(34, 197, 94, 0.2);
-            margin-bottom: 30px;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 20px;
+            padding: 35px 50px;
+            border: 1px solid rgba(212,175,105,0.15);
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease 0.9s both;
         }
 
         .countdown-title {
-            font-size: 12px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #16a34a;
-            text-align: center;
-            margin-bottom: 25px;
             font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(212,175,105,0.5);
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .countdown {
             display: flex;
-            gap: 30px;
+            gap: 35px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .countdown-item {
-            text-align: center;
-            min-width: 70px;
-        }
+        .countdown-item { text-align: center; min-width: 65px; }
 
         .countdown-value {
-            font-size: clamp(32px, 6vw, 56px);
+            font-size: clamp(36px, 6vw, 54px);
             font-weight: 300;
             line-height: 1;
-            font-family: 'Playfair Display', serif;
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: white;
         }
 
-        .countdown-item:nth-child(even) .countdown-value {
-            background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .countdown-value.tick { animation: countPulse 0.3s ease; }
+
+        .countdown-sep {
+            font-size: 36px;
+            color: rgba(212,175,105,0.25);
+            align-self: center;
+            font-weight: 200;
         }
 
         .countdown-label {
-            font-size: 11px;
-            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: #15803d;
+            color: rgba(255,255,255,0.35);
             margin-top: 8px;
-            font-family: 'Montserrat', sans-serif;
         }
 
-        .date-display {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            color: #166534;
-            font-size: 18px;
-        }
-
-        .date-display span:nth-child(2) {
+        .hero-date {
             font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
             font-weight: 300;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.5);
+            animation: fadeInUp 0.8s ease 1s both;
         }
 
-        /* Scroll Indicator */
         .scroll-indicator {
             position: absolute;
-            bottom: 40px;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            animation: bounce 2s infinite;
+            z-index: 2;
         }
 
-        .scroll-mouse {
-            width: 30px;
-            height: 50px;
-            border: 2px solid #86efac;
-            border-radius: 15px;
-            position: relative;
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(212,175,105,0.4), transparent);
+            animation: scrollPulse 2s infinite;
         }
 
-        .scroll-dot {
-            width: 4px;
-            height: 10px;
-            background: #22c55e;
-            border-radius: 2px;
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: scroll 2s infinite;
-        }
-
-        /* Timeline Section */
-        .timeline-section {
-            padding: 100px 20px;
-            background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-            position: relative;
-            z-index: 1;
+        /* ===== SECTIONS COMMON ===== */
+        .section-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #c9a84c;
+            text-align: center;
+            margin-bottom: 15px;
         }
 
         .section-title {
-            font-size: clamp(28px, 5vw, 42px);
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 300;
             text-align: center;
-            color: #166534;
-            margin-bottom: 20px;
-            font-weight: 400;
+            color: #2c2c2c;
+            margin-bottom: 15px;
         }
 
-        .section-title span {
-            background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .section-title em {
+            font-style: italic;
+            font-weight: 400;
+            color: #b8943f;
         }
 
         .section-subtitle {
             text-align: center;
-            color: #15803d;
+            color: #777;
             font-size: 16px;
-            margin-bottom: 70px;
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
+            margin-bottom: 60px;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            padding: 120px 20px;
+            position: relative;
         }
 
         .timeline {
-            max-width: 800px;
+            max-width: 750px;
             margin: 0 auto;
             position: relative;
         }
@@ -264,319 +339,18 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #86efac 0%, #22c55e 50%, #16a34a 100%);
+            width: 1px;
+            background: linear-gradient(180deg, transparent, #d4af69 10%, #c9a84c 50%, #d4af69 90%, transparent);
             transform: translateX(-50%);
-            border-radius: 2px;
         }
 
         .timeline-item {
             display: flex;
             padding-bottom: 50px;
             position: relative;
-        }
-
-        .timeline-item:nth-child(odd) {
-            justify-content: flex-start;
-        }
-
-        .timeline-item:nth-child(even) {
-            justify-content: flex-end;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
-            font-family: 'Montserrat', sans-serif;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
-            border: 3px solid white;
-            z-index: 2;
-        }
-
-        .timeline-card {
-            width: calc(50% - 50px);
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 40px rgba(22, 163, 74, 0.08);
-            border: 1px solid rgba(34, 197, 94, 0.15);
-        }
-
-        .timeline-year {
-            font-size: 12px;
-            font-weight: 600;
-            color: #22c55e;
-            letter-spacing: 2px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .timeline-card h3 {
-            font-size: 20px;
-            color: #166534;
-            margin: 8px 0;
-            font-weight: 500;
-        }
-
-        .timeline-card p {
-            font-size: 14px;
-            color: #15803d;
-            line-height: 1.6;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-        }
-
-        /* Photo Gallery Section */
-        .gallery-section {
-            padding: 100px 20px;
-            background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
-            position: relative;
-            z-index: 1;
-        }
-
-        .gallery-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
-        }
-
-        .gallery-item {
-            aspect-ratio: 4/3;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(22, 163, 74, 0.1);
-            border: 2px solid rgba(34, 197, 94, 0.15);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(22, 163, 74, 0.2);
-        }
-
-        .gallery-item:first-child {
-            grid-row: span 2;
-            aspect-ratio: 1;
-        }
-
-        .gallery-placeholder {
-            font-size: 50px;
-            margin-bottom: 10px;
-            color: #86efac;
-            font-weight: 300;
-        }
-
-        .gallery-placeholder-text {
-            font-size: 12px;
-            color: #22c55e;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        /* Gift Section */
-        .gift-section {
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%);
-            position: relative;
-            z-index: 1;
-        }
-
-        .gift-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .gift-icon {
-            margin-bottom: 20px;
-        }
-
-        .gift-section h2 {
-            font-size: clamp(28px, 5vw, 42px);
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 400;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .gift-section p {
-            font-size: 16px;
-            color: rgba(255,255,255,0.95);
-            line-height: 1.8;
-            margin-bottom: 40px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-        }
-
-        .gift-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: white;
-            color: #16a34a;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .gift-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-        }
-
-        .gift-note {
-            font-size: 13px;
-            color: rgba(255,255,255,0.8);
-            margin-top: 25px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* Footer */
-        footer {
-            padding: 60px 20px;
-            background: #14532d;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .footer-icon {
-            margin-bottom: 20px;
-        }
-
-        .footer-quote {
-            color: rgba(255,255,255,0.7);
-            font-size: 14px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            margin-bottom: 10px;
-            font-style: italic;
-        }
-
-        .footer-signature {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-
-        @keyframes scroll {
-            0% { opacity: 1; top: 8px; }
-            100% { opacity: 0; top: 25px; }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) scale(0);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) scale(1);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes countPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes growLine {
-            from {
-                height: 0;
-            }
-            to {
-                height: 100%;
-            }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        /* Timeline animations */
-        .timeline-line {
-            animation: growLine 2s ease-out forwards;
-        }
-
-        .timeline-item {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.6s ease-out;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .timeline-item.visible {
@@ -584,372 +358,646 @@
             transform: translateY(0);
         }
 
+        .timeline-item:nth-child(odd) { justify-content: flex-start; }
+        .timeline-item:nth-child(even) { justify-content: flex-end; }
+
         .timeline-dot {
-            transition: all 0.3s ease;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 44px;
+            background: white;
+            border: 2px solid #d4af69;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #b8943f;
+            font-family: 'Montserrat', sans-serif;
+            z-index: 2;
+            transition: all 0.3s;
         }
 
         .timeline-dot:hover {
-            transform: translateX(-50%) scale(1.2);
-            box-shadow: 0 8px 25px rgba(22, 163, 74, 0.4);
+            transform: translateX(-50%) scale(1.15);
+            background: #d4af69;
+            color: white;
+            box-shadow: 0 5px 20px rgba(212,175,105,0.3);
         }
 
         .timeline-card {
-            transition: all 0.3s ease;
+            width: calc(50% - 45px);
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(212,175,105,0.12);
+            transition: all 0.3s;
         }
 
         .timeline-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(22, 163, 74, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212,175,105,0.12);
         }
 
-        /* Countdown animation */
-        .countdown-value {
-            transition: all 0.3s ease;
+        .timeline-year {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #c9a84c;
+            letter-spacing: 3px;
         }
 
-        .countdown-value.tick {
-            animation: countPulse 0.3s ease;
+        .timeline-card h3 {
+            font-size: 22px;
+            color: #2c2c2c;
+            margin: 8px 0;
+            font-weight: 500;
         }
 
-        .countdown-container {
-            animation: fadeInUp 1s ease-out 0.5s both;
+        .timeline-card p {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.7;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
         }
 
-        /* Seconds pulse effect */
-        #seconds {
-            animation: pulse 1s ease-in-out infinite;
-        }
-
-        /* Profile shimmer effect */
-        .profile-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            animation: shimmer 3s infinite;
-            border-radius: 50%;
-        }
-
-        .profile-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Gallery animations */
-        .gallery-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.5s ease-out;
-        }
-
-        .gallery-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .gallery-item:nth-child(1) { transition-delay: 0.1s; }
-        .gallery-item:nth-child(2) { transition-delay: 0.2s; }
-        .gallery-item:nth-child(3) { transition-delay: 0.3s; }
-        .gallery-item:nth-child(4) { transition-delay: 0.4s; }
-        .gallery-item:nth-child(5) { transition-delay: 0.5s; }
-        .gallery-item:nth-child(6) { transition-delay: 0.6s; }
-
-        /* Hero text animations */
-        .subtitle {
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        h1 {
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        .date-display {
-            animation: fadeInUp 0.8s ease-out 0.8s both;
-        }
-
-        /* Gift button pulse */
-        .gift-button {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .gift-button:hover {
-            animation: none;
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: linear-gradient(135deg, #22c55e, #4ade80);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: floatParticle 15s infinite ease-in-out;
-        }
-
-        .particle:nth-child(1) {
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 12s;
-        }
-
-        .particle:nth-child(2) {
-            left: 20%;
-            width: 15px;
-            height: 15px;
-            animation-delay: 2s;
-            animation-duration: 18s;
-        }
-
-        .particle:nth-child(3) {
-            left: 35%;
-            width: 8px;
-            height: 8px;
-            animation-delay: 4s;
-            animation-duration: 14s;
-        }
-
-        .particle:nth-child(4) {
-            left: 50%;
-            animation-delay: 1s;
-            animation-duration: 16s;
-        }
-
-        .particle:nth-child(5) {
-            left: 65%;
-            width: 12px;
-            height: 12px;
-            animation-delay: 3s;
-            animation-duration: 20s;
-        }
-
-        .particle:nth-child(6) {
-            left: 75%;
-            width: 6px;
-            height: 6px;
-            animation-delay: 5s;
-            animation-duration: 13s;
-        }
-
-        .particle:nth-child(7) {
-            left: 85%;
-            animation-delay: 2.5s;
-            animation-duration: 17s;
-        }
-
-        .particle:nth-child(8) {
-            left: 95%;
-            width: 14px;
-            height: 14px;
-            animation-delay: 0.5s;
-            animation-duration: 15s;
-        }
-
-        @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.3;
-            }
-            90% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-100px) rotate(720deg);
-                opacity: 0;
-            }
-        }
-
-        /* Event Details Section */
+        /* ===== EVENT DETAILS ===== */
         .event-section {
-            padding: 100px 20px;
-            background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
-            position: relative;
-            z-index: 1;
+            padding: 120px 20px;
+            background: linear-gradient(180deg, #faf9f6, #f5f0e8, #faf9f6);
         }
 
         .event-cards {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 24px;
         }
 
         .event-card {
             background: white;
             border-radius: 20px;
-            padding: 35px 30px;
+            padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(22, 163, 74, 0.08);
-            border: 1px solid rgba(34, 197, 94, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(212,175,105,0.1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(22, 163, 74, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(212,175,105,0.15);
         }
 
         .event-card-icon {
-            margin-bottom: 18px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #faf5eb, #f0e6d0);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .event-card h3 {
-            font-size: 20px;
-            color: #166534;
+            font-size: 22px;
+            color: #2c2c2c;
             margin-bottom: 10px;
             font-weight: 500;
         }
 
         .event-card p {
             font-size: 14px;
-            color: #15803d;
-            line-height: 1.7;
+            color: #777;
+            line-height: 1.8;
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
         }
 
         .event-card a {
-            color: #16a34a;
+            color: #b8943f;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
         }
 
-        .event-card a:hover {
-            color: #166534;
-            text-decoration: underline;
-        }
+        .event-card a:hover { border-bottom-color: #b8943f; }
 
-        /* RSVP Section */
-        .rsvp-section {
-            padding: 80px 20px;
-            background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
-            position: relative;
-            z-index: 1;
+        /* ===== RSVP (compacto) ===== */
+        .rsvp-banner {
+            padding: 50px 20px;
+            background: linear-gradient(180deg, #faf9f6, #f5f0e8);
             text-align: center;
         }
 
-        .rsvp-content {
-            max-width: 500px;
+        .rsvp-banner-inner {
+            max-width: 600px;
             margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
         }
 
-        .rsvp-section p {
+        .rsvp-banner-text {
+            text-align: left;
+        }
+
+        .rsvp-banner-text h3 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #2c2c2c;
+            margin-bottom: 5px;
+        }
+
+        .rsvp-banner-text h3 em {
+            color: #b8943f;
+            font-style: italic;
+        }
+
+        .rsvp-banner-text p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #999;
+            font-weight: 300;
+        }
+
+        .rsvp-form-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #d4af69, #c9a84c);
+            color: white;
+            padding: 15px 32px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 6px 20px rgba(212,175,105,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .rsvp-form-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212,175,105,0.35);
+        }
+
+        /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
+        .ticket-section {
+            padding: 120px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #1e2a3a 40%, #2d3a4a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-section::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 60%;
+            height: 160%;
+            background: radial-gradient(ellipse, rgba(212,175,105,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ticket-content {
+            max-width: 480px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .ticket-visual {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,105,0.2);
+            border-radius: 24px;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-visual::before,
+        .ticket-visual::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #1a1a2e, #1e2a3a);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ticket-visual::before { left: -15px; }
+        .ticket-visual::after { right: -15px; }
+
+        .ticket-dashed {
+            border-top: 1px dashed rgba(212,175,105,0.2);
+            margin: 25px 30px;
+        }
+
+        .ticket-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(212,175,105,0.5);
+            margin-bottom: 12px;
+        }
+
+        .ticket-name {
+            font-size: 28px;
+            color: white;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .ticket-event {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+        }
+
+        .ticket-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .ticket-detail-item {
+            text-align: center;
+        }
+
+        .ticket-detail-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(212,175,105,0.4);
+            margin-bottom: 5px;
+        }
+
+        .ticket-detail-value {
             font-size: 16px;
-            color: #15803d;
-            line-height: 1.8;
-            margin-bottom: 30px;
+            color: white;
+            font-weight: 400;
+        }
+
+        .ticket-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .ticket-section h2 em {
+            font-style: italic;
+            font-weight: 400;
+            background: linear-gradient(90deg, #d4af69, #e8c97a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ticket-section p.ticket-desc {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.9;
+            margin-bottom: 40px;
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
         }
 
-        .whatsapp-button {
+        .ticket-button {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: #25D366;
-            color: white;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 16px;
+            background: linear-gradient(135deg, #d4af69, #c9a84c);
+            color: #1a1a2e;
+            padding: 18px 44px;
+            border-radius: 60px;
+            font-size: 15px;
             font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 8px 30px rgba(212,175,105,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ticket-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(212,175,105,0.4);
+        }
+
+        .ticket-note {
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            margin-top: 25px;
             font-family: 'Montserrat', sans-serif;
         }
 
-        .whatsapp-button:hover {
+        /* ===== MURAL DE RECADOS ===== */
+        .messages-section {
+            padding: 120px 20px;
+            background: linear-gradient(180deg, #faf9f6, #f5f0e8, #faf9f6);
+        }
+
+        .messages-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .message-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(212,175,105,0.1);
+            margin-bottom: 50px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #e8e3d9;
+            border-radius: 12px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: #2c2c2c;
+            background: #faf9f6;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #d4af69;
+            box-shadow: 0 0 0 3px rgba(212,175,105,0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #bbb;
+        }
+
+        .submit-message {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #d4af69, #c9a84c);
+            color: white;
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(212,175,105,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .submit-message:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 12px 30px rgba(212,175,105,0.35);
         }
 
-        .rsvp-note {
-            font-size: 13px !important;
-            color: #4ade80 !important;
-            margin-top: 20px !important;
-            margin-bottom: 0 !important;
+        .submit-message:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        /* Responsive */
+        .messages-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid rgba(212,175,105,0.08);
+            animation: fadeInUp 0.5s ease both;
+            position: relative;
+        }
+
+        .message-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 50px;
+            color: rgba(212,175,105,0.12);
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1;
+        }
+
+        .message-author {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #b8943f;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .message-text {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.7;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .message-date {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            color: #bbb;
+            margin-top: 15px;
+        }
+
+        .messages-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #bbb;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .messages-empty svg {
+            display: block;
+            margin: 0 auto 15px;
+            opacity: 0.3;
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: #b8943f;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .form-success svg {
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 60px 20px;
+            background: #141420;
+            text-align: center;
+        }
+
+        .footer-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(212,175,105,0.2);
+            margin: 0 auto 25px;
+        }
+
+        .footer-quote {
+            color: rgba(255,255,255,0.45);
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+
+        .footer-signature {
+            font-family: 'Montserrat', sans-serif;
+            color: rgba(255,255,255,0.25);
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes countPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.4; height: 40px; }
+            50% { opacity: 0.8; height: 50px; }
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .timeline-line {
-                left: 20px;
-            }
+            .nav { gap: 12px; padding: 15px 15px; }
+            .nav a { font-size: 9px; letter-spacing: 2px; }
 
-            .timeline-item {
-                justify-content: flex-end !important;
-            }
+            .timeline-line { left: 20px; }
+            .timeline-item { justify-content: flex-end !important; }
+            .timeline-dot { left: 20px; width: 36px; height: 36px; font-size: 12px; }
+            .timeline-card { width: calc(100% - 55px); }
 
-            .timeline-dot {
-                left: 20px;
-            }
+            .countdown-container { padding: 25px 20px; }
+            .countdown { gap: 20px; }
+            .countdown-sep { display: none; }
 
-            .timeline-card {
-                width: calc(100% - 60px);
-            }
+            .form-row { flex-direction: column; gap: 0; }
 
-            .countdown-container {
-                padding: 30px 20px;
-            }
+            .ticket-visual { padding: 35px 25px; }
+            .ticket-details { gap: 25px; }
+            .ticket-name { font-size: 22px; }
 
-            .countdown {
-                gap: 15px;
+            .messages-wall {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Particles -->
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <a href="#inicio">Inicio</a>
+        <a href="#jornada">Jornada</a>
+        <a href="#evento">Evento</a>
+        <a href="#recados">Recados</a>
+        <a href="#presenca">Presenca</a>
+        <a href="#ingresso">Ingresso</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="inicio">
+        <div class="hero-ornament">&#10047; &#10047; &#10047;</div>
+
         <div class="profile-container">
             <div class="profile-inner">
                 <img src="rafaella-foto.png" alt="Dra. Rafaella Chaveiro">
             </div>
         </div>
 
-        <p class="subtitle">Formatura de Medicina</p>
+        <p class="hero-label">Formatura de Medicina</p>
+        <h1>Dra. <em>Rafaella Chaveiro</em></h1>
 
-        <h1>Dra. <span>Rafaella Chaveiro</span></h1>
+        <div class="hero-divider"></div>
 
-
-
-        <!-- Countdown -->
         <div class="countdown-container">
             <p class="countdown-title">Contagem Regressiva</p>
             <div class="countdown">
@@ -957,14 +1005,17 @@
                     <div class="countdown-value" id="days">00</div>
                     <div class="countdown-label">Dias</div>
                 </div>
+                <span class="countdown-sep">:</span>
                 <div class="countdown-item">
                     <div class="countdown-value" id="hours">00</div>
                     <div class="countdown-label">Horas</div>
                 </div>
+                <span class="countdown-sep">:</span>
                 <div class="countdown-item">
                     <div class="countdown-value" id="minutes">00</div>
                     <div class="countdown-label">Min</div>
                 </div>
+                <span class="countdown-sep">:</span>
                 <div class="countdown-item">
                     <div class="countdown-value" id="seconds">00</div>
                     <div class="countdown-label">Seg</div>
@@ -972,22 +1023,18 @@
             </div>
         </div>
 
-        <div class="date-display">
-            <span>20 de Dezembro de 2026</span>
-        </div>
+        <p class="hero-date">20 de Dezembro de 2026</p>
 
-        <!-- Scroll Indicator -->
         <div class="scroll-indicator">
-            <div class="scroll-mouse">
-                <div class="scroll-dot"></div>
-            </div>
+            <div class="scroll-line"></div>
         </div>
     </section>
 
-    <!-- Timeline Section -->
-    <section class="timeline-section">
-        <h2 class="section-title">Uma Jornada de <span>Dedicação</span></h2>
-        <p class="section-subtitle">6 anos de estudo, amor e dedicação</p>
+    <!-- Timeline -->
+    <section class="timeline-section" id="jornada">
+        <p class="section-label">Trajetoria</p>
+        <h2 class="section-title">Uma Jornada de <em>Dedicacao</em></h2>
+        <p class="section-subtitle">6 anos de estudo, amor e dedicacao</p>
 
         <div class="timeline">
             <div class="timeline-line"></div>
@@ -996,8 +1043,8 @@
                 <div class="timeline-dot">1</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2021</span>
-                    <h3>O Início do Sonho</h3>
-                    <p>Aprovação no vestibular de Medicina</p>
+                    <h3>O Inicio do Sonho</h3>
+                    <p>Aprovacao no vestibular de Medicina</p>
                 </div>
             </div>
 
@@ -1015,7 +1062,7 @@
                 <div class="timeline-card">
                     <span class="timeline-year">2023</span>
                     <h3>Crescendo na Jornada</h3>
-                    <p>Aprofundando conhecimentos e práticas clínicas</p>
+                    <p>Aprofundando conhecimentos e praticas clinicas</p>
                 </div>
             </div>
 
@@ -1024,7 +1071,7 @@
                 <div class="timeline-card">
                     <span class="timeline-year">2024</span>
                     <h3>Internato</h3>
-                    <p>Aprendendo na prática o cuidado com os pacientes</p>
+                    <p>Aprendendo na pratica o cuidado com os pacientes</p>
                 </div>
             </div>
 
@@ -1032,7 +1079,7 @@
                 <div class="timeline-dot">5</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2025</span>
-                    <h3>Plantões e Dedicação</h3>
+                    <h3>Plantoes e Dedicacao</h3>
                     <p>Noites em claro cuidando de quem mais precisa</p>
                 </div>
             </div>
@@ -1048,160 +1095,329 @@
         </div>
     </section>
 
-    <!-- Event Details Section -->
-    <section class="event-section">
-        <h2 class="section-title">Detalhes do <span>Evento</span></h2>
-        <p class="section-subtitle">Informações importantes para o grande dia</p>
+    <!-- Event Details -->
+    <section class="event-section" id="evento">
+        <p class="section-label">Programacao</p>
+        <h2 class="section-title">Eventos da <em>Formatura</em></h2>
+        <p class="section-subtitle">Tres dias de celebracao para marcar essa conquista</p>
 
         <div class="event-cards">
+            <!-- Colacao de Grau -->
             <div class="event-card">
                 <div class="event-card-icon">
-                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                        <line x1="16" y1="2" x2="16" y2="6"/>
-                        <line x1="8" y1="2" x2="8" y2="6"/>
-                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
                     </svg>
                 </div>
-                <h3>Data e Horário</h3>
-                <p>20 de Dezembro de 2026<br>às 19h00</p>
+                <h3>Colacao de Grau</h3>
+                <p>18 de Dezembro de 2026<br>as 18h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
             </div>
 
+            <!-- Culto Ecumenico -->
             <div class="event-card">
                 <div class="event-card-icon">
-                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                        <circle cx="12" cy="10" r="3"/>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
                     </svg>
                 </div>
-                <h3>Local</h3>
-                <p>A confirmar<br><a href="#" target="_blank">Ver no Google Maps</a></p>
+                <h3>Culto Ecumenico</h3>
+                <p>19 de Dezembro de 2026<br>as 10h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
             </div>
 
-            <div class="event-card">
-                <div class="event-card-icon">
-                    <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                        <circle cx="12" cy="7" r="4"/>
+            <!-- Baile de Formatura -->
+            <div class="event-card" style="border-color: rgba(212,175,105,0.3);">
+                <div class="event-card-icon" style="background: linear-gradient(135deg, #d4af69, #c9a84c);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
                     </svg>
                 </div>
-                <h3>Traje</h3>
-                <p>Traje social<br>Cores livres</p>
+                <h3>Baile de Formatura</h3>
+                <p>20 de Dezembro de 2026<br>as 21h00<br><a href="#ingresso">Adquira seu ingresso</a></p>
             </div>
         </div>
     </section>
 
-    <!-- RSVP Section -->
-    <section class="rsvp-section">
-        <div class="rsvp-content">
-            <h2 class="section-title">Confirme sua <span>Presença</span></h2>
-            <p>Confirme sua presença pelo WhatsApp para nos ajudar com a organização do evento.</p>
-            <a href="https://wa.me/5562991314059?text=Ol%C3%A1!%20Quero%20confirmar%20minha%20presen%C3%A7a%20na%20formatura%20da%20Dra.%20Rafaella!" target="_blank" class="whatsapp-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-                Confirmar Presença
-            </a>
-            <p class="rsvp-note">Toque no botão para abrir o WhatsApp</p>
+    <!-- Mural de Recados (acima do ingresso) -->
+    <section class="messages-section" id="recados">
+        <p class="section-label">Mural</p>
+        <h2 class="section-title">Deixe seu <em>Recado</em></h2>
+        <p class="section-subtitle">Escreva uma mensagem carinhosa para a Dra. Rafaella</p>
+
+        <div class="messages-container">
+            <div class="message-form" id="messageForm">
+                <div id="formFields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Seu Nome</label>
+                            <input type="text" id="msgName" placeholder="Como voce se chama?" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Sua Mensagem</label>
+                        <textarea id="msgText" placeholder="Escreva seu recado para a Dra. Rafaella..." maxlength="500"></textarea>
+                    </div>
+                    <button class="submit-message" id="sendBtn" onclick="sendMessage()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                        Enviar Recado
+                    </button>
+                </div>
+                <div class="form-success" id="formSuccess">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <p>Recado enviado com carinho!</p>
+                </div>
+            </div>
+
+            <div id="messagesWall" class="messages-wall">
+                <div class="messages-empty" id="emptyState">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    Seja o primeiro a deixar um recado!
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Gift Section -->
-    <section class="gift-section">
-        <div class="gift-content">
-            <div class="gift-icon">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
-                    <rect x="3" y="8" width="18" height="13" rx="2"/>
-                    <path d="M12 8V21"/>
-                    <path d="M3 12h18"/>
-                    <path d="M12 8c-2-2-5-2.5-5 0s3 2.5 5 0"/>
-                    <path d="M12 8c2-2 5-2.5 5 0s-3 2.5-5 0"/>
-                </svg>
+    <!-- RSVP compacto -->
+    <section class="rsvp-banner" id="presenca">
+        <div class="rsvp-banner-inner">
+            <div class="rsvp-banner-text">
+                <h3>Confirme sua <em>Presenca</em></h3>
+                <p>Preencha o formulario para confirmar</p>
             </div>
-            <h2>Lista de Presentes</h2>
-            <p>Sua presença é o maior presente! Mas se quiser me ajudar a iniciar essa nova fase da vida, ficarei muito feliz com sua contribuição.</p>
-            <a href="https://www.vakinha.com.br" target="_blank" class="gift-button">
-                <span>Contribuir com um Presente</span>
+            <a href="https://forms.gle/SUBSTITUA_PELO_SEU_LINK" target="_blank" class="rsvp-form-button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                Confirmar Presenca
             </a>
-            <p class="gift-note">PIX, transferência ou escolha da lista</p>
+        </div>
+    </section>
+
+    <!-- Ingresso Simbolico -->
+    <section class="ticket-section" id="ingresso">
+        <div class="ticket-content">
+            <div class="ticket-visual">
+                <p class="ticket-header">Baile de Formatura</p>
+                <p class="ticket-event">Formatura de Medicina &bull; 2026</p>
+                <div class="ticket-dashed"></div>
+                <div class="ticket-details">
+                    <div class="ticket-detail-item">
+                        <p class="ticket-detail-label">Data</p>
+                        <p class="ticket-detail-value">20/12/2026</p>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <p class="ticket-detail-label">Horario</p>
+                        <p class="ticket-detail-value">19h00</p>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <p class="ticket-detail-label">Assento</p>
+                        <p class="ticket-detail-value">VIP</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Adquira seu <em>Ingresso</em></h2>
+            <p class="ticket-desc">Garanta seu ingresso para o Baile de Formatura e celebre essa noite especial conosco!</p>
+            <a href="https://exemplo.com/ingresso" target="_blank" class="ticket-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                    <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
+                </svg>
+                Garantir Meu Ingresso
+            </a>
+            <p class="ticket-note">Pagamento via PIX ou transferencia</p>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-icon">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5">
-                <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/>
-                <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
-                <path d="M12 19v3"/>
-                <path d="M8 22h8"/>
-                <circle cx="12" cy="6" r="1"/>
-            </svg>
-        </div>
-        <p class="footer-quote">"Curar às vezes, aliviar frequentemente, consolar sempre"</p>
+        <div class="footer-divider"></div>
+        <p class="footer-quote">"Curar as vezes, aliviar frequentemente, consolar sempre"</p>
         <p class="footer-signature">Com amor, Dra. Rafaella Chaveiro</p>
     </footer>
 
-    <!-- Countdown Script -->
     <script>
-        function updateCountdown() {
-            const graduationDate = new Date('2026-12-20T19:00:00').getTime();
-            const now = new Date().getTime();
-            const difference = graduationDate - now;
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-                const minutes = Math.floor((difference / 1000 / 60) % 60);
-                const seconds = Math.floor((difference / 1000) % 60);
-
-                updateWithAnimation('days', days);
-                updateWithAnimation('hours', hours);
-                updateWithAnimation('minutes', minutes);
-                updateWithAnimation('seconds', seconds);
-            }
-        }
-
-        function updateWithAnimation(id, value) {
-            const element = document.getElementById(id);
-            const newValue = String(value).padStart(2, '0');
-            
-            if (element.textContent !== newValue) {
-                element.classList.add('tick');
-                element.textContent = newValue;
-                
-                setTimeout(() => {
-                    element.classList.remove('tick');
-                }, 300);
-            }
-        }
-
-        // Intersection Observer para animações ao scroll
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
+        // ===== Firebase Config =====
+        // IMPORTANTE: Substitua com suas credenciais do Firebase
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_PROJETO.firebaseapp.com",
+            databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+            projectId: "SEU_PROJETO",
+            storageBucket: "SEU_PROJETO.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID"
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        let db = null;
+        let useFirebase = false;
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.database();
+            // Testa se a conexao funciona
+            db.ref('.info/connected').on('value', (snap) => {
+                if (snap.val() === true) {
+                    useFirebase = true;
+                    loadMessages();
                 }
             });
-        }, observerOptions);
+        } catch(e) {
+            console.log('Firebase nao configurado. Usando localStorage.');
+        }
 
-        // Observar elementos da timeline
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            observer.observe(item);
-        });
+        // Fallback: localStorage
+        function getLocalMessages() {
+            try {
+                return JSON.parse(localStorage.getItem('rafaella_messages') || '[]');
+            } catch { return []; }
+        }
 
-        // Observar elementos da galeria
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            observer.observe(item);
-        });
+        function saveLocalMessage(msg) {
+            const msgs = getLocalMessages();
+            msgs.unshift(msg);
+            localStorage.setItem('rafaella_messages', JSON.stringify(msgs));
+        }
 
+        function loadMessages() {
+            if (useFirebase && db) {
+                db.ref('messages').orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
+                    const messages = [];
+                    snapshot.forEach((child) => {
+                        messages.push(child.val());
+                    });
+                    messages.reverse();
+                    renderMessages(messages);
+                });
+            } else {
+                renderMessages(getLocalMessages());
+            }
+        }
+
+        function renderMessages(messages) {
+            const wall = document.getElementById('messagesWall');
+            const empty = document.getElementById('emptyState');
+
+            if (messages.length === 0) {
+                empty.style.display = 'block';
+                wall.innerHTML = '';
+                wall.appendChild(empty);
+                return;
+            }
+
+            empty.style.display = 'none';
+            wall.innerHTML = messages.map(m => `
+                <div class="message-card">
+                    <p class="message-author">${escapeHtml(m.name)}</p>
+                    <p class="message-text">${escapeHtml(m.text)}</p>
+                    <p class="message-date">${formatDate(m.timestamp)}</p>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(ts) {
+            if (!ts) return '';
+            const d = new Date(ts);
+            const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+            return `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
+        function sendMessage() {
+            const name = document.getElementById('msgName').value.trim();
+            const text = document.getElementById('msgText').value.trim();
+            const btn = document.getElementById('sendBtn');
+
+            if (!name || !text) {
+                alert('Por favor, preencha seu nome e mensagem.');
+                return;
+            }
+
+            btn.disabled = true;
+
+            const message = {
+                name: name,
+                text: text,
+                timestamp: Date.now()
+            };
+
+            if (useFirebase && db) {
+                db.ref('messages').push(message).then(() => {
+                    showSuccess();
+                }).catch(() => {
+                    saveLocalMessage(message);
+                    showSuccess();
+                    loadMessages();
+                });
+            } else {
+                saveLocalMessage(message);
+                showSuccess();
+                loadMessages();
+            }
+        }
+
+        function showSuccess() {
+            document.getElementById('formFields').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('formFields').style.display = 'block';
+                document.getElementById('formSuccess').style.display = 'none';
+                document.getElementById('msgName').value = '';
+                document.getElementById('msgText').value = '';
+                document.getElementById('sendBtn').disabled = false;
+            }, 3000);
+        }
+
+        // Carrega mensagens locais ao iniciar
+        if (!useFirebase) loadMessages();
+
+        // ===== Countdown =====
+        function updateCountdown() {
+            const target = new Date('2026-12-20T19:00:00').getTime();
+            const now = Date.now();
+            const diff = target - now;
+            if (diff > 0) {
+                update('days', Math.floor(diff / 86400000));
+                update('hours', Math.floor((diff / 3600000) % 24));
+                update('minutes', Math.floor((diff / 60000) % 60));
+                update('seconds', Math.floor((diff / 1000) % 60));
+            }
+        }
+        function update(id, val) {
+            const el = document.getElementById(id);
+            const v = String(val).padStart(2, '0');
+            if (el.textContent !== v) {
+                el.classList.add('tick');
+                el.textContent = v;
+                setTimeout(() => el.classList.remove('tick'), 300);
+            }
+        }
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
+        // Navbar scroll
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        // Intersection Observer
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.timeline-item, .event-card, .message-card').forEach(el => obs.observe(el));
     </script>
 </body>
 </html>
