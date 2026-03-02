@@ -15,15 +15,44 @@
     <meta name="twitter:title" content="Formatura Dra. Rafaella Chaveiro">
     <meta name="twitter:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro!">
     <meta name="twitter:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
+    <meta name="description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Dezembro de 2026.">
     <link rel="icon" type="image/png" href="rafaella-foto.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <!-- Firebase para o mural de recados -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <style>
+        :root {
+            --gold: #d4af69;
+            --gold-dark: #c9a84c;
+            --gold-darker: #b8943f;
+            --dark-bg: #1a1a2e;
+            --dark-secondary: #1e2a3a;
+            --dark-tertiary: #2d3a4a;
+            --dark-quaternary: #3a4a5a;
+            --light-bg: #faf9f6;
+            --light-section: #f5f0e8;
+            --text-primary: #2c2c2c;
+            --text-secondary: #777;
+            --text-muted: #999;
+            --text-light: #bbb;
+            --gold-alpha-15: rgba(212,175,105,0.15);
+            --gold-alpha-10: rgba(212,175,105,0.1);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+
+        /* Focus visible for keyboard navigation */
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
 
         body {
             font-family: 'Cormorant Garamond', Georgia, serif;
@@ -918,6 +947,40 @@
             letter-spacing: 2px;
         }
 
+        /* ===== FORM VALIDATION ===== */
+        .form-error {
+            display: none;
+            color: #c0392b;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            padding: 10px 16px;
+            background: rgba(192,57,43,0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(192,57,43,0.15);
+        }
+
+        .form-error.visible {
+            display: block;
+        }
+
+        .form-group input.input-error,
+        .form-group textarea.input-error {
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+        }
+
+        /* ===== COUNTDOWN FINISHED ===== */
+        .countdown-finished {
+            font-size: clamp(20px, 4vw, 32px);
+            color: white;
+            font-style: italic;
+            font-weight: 300;
+            text-align: center;
+            padding: 20px 0;
+        }
+
         /* ===== ANIMATIONS ===== */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -974,12 +1037,12 @@
 
     <!-- Navigation -->
     <nav class="nav" id="navbar">
-        <a href="#inicio">Inicio</a>
-        <a href="#jornada">Jornada</a>
-        <a href="#evento">Evento</a>
-        <a href="#recados">Recados</a>
-        <a href="#presenca">Presenca</a>
-        <a href="#ingresso">Ingresso</a>
+        <a href="#inicio" aria-label="Ir para Início">Início</a>
+        <a href="#jornada" aria-label="Ir para Jornada">Jornada</a>
+        <a href="#evento" aria-label="Ir para Evento">Evento</a>
+        <a href="#recados" aria-label="Ir para Recados">Recados</a>
+        <a href="#presenca" aria-label="Ir para Presença">Presença</a>
+        <a href="#ingresso" aria-label="Ir para Ingresso">Ingresso</a>
     </nav>
 
     <!-- Hero -->
@@ -988,7 +1051,7 @@
 
         <div class="profile-container">
             <div class="profile-inner">
-                <img src="rafaella-foto.png" alt="Dra. Rafaella Chaveiro">
+                <img src="rafaella-foto.png" alt="Dra. Rafaella Chaveiro" width="180" height="180">
             </div>
         </div>
 
@@ -1031,9 +1094,9 @@
 
     <!-- Timeline -->
     <section class="timeline-section" id="jornada">
-        <p class="section-label">Trajetoria</p>
-        <h2 class="section-title">Uma Jornada de <em>Dedicacao</em></h2>
-        <p class="section-subtitle">6 anos de estudo, amor e dedicacao</p>
+        <p class="section-label">Trajetória</p>
+        <h2 class="section-title">Uma Jornada de <em>Dedicação</em></h2>
+        <p class="section-subtitle">6 anos de estudo, amor e dedicação</p>
 
         <div class="timeline">
             <div class="timeline-line"></div>
@@ -1042,8 +1105,8 @@
                 <div class="timeline-dot">1</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2021</span>
-                    <h3>O Inicio do Sonho</h3>
-                    <p>Aprovacao no vestibular de Medicina</p>
+                    <h3>O Início do Sonho</h3>
+                    <p>Aprovação no vestibular de Medicina</p>
                 </div>
             </div>
 
@@ -1061,7 +1124,7 @@
                 <div class="timeline-card">
                     <span class="timeline-year">2023</span>
                     <h3>Crescendo na Jornada</h3>
-                    <p>Aprofundando conhecimentos e praticas clinicas</p>
+                    <p>Aprofundando conhecimentos e práticas clínicas</p>
                 </div>
             </div>
 
@@ -1070,7 +1133,7 @@
                 <div class="timeline-card">
                     <span class="timeline-year">2024</span>
                     <h3>Internato</h3>
-                    <p>Aprendendo na pratica o cuidado com os pacientes</p>
+                    <p>Aprendendo na prática o cuidado com os pacientes</p>
                 </div>
             </div>
 
@@ -1078,7 +1141,7 @@
                 <div class="timeline-dot">5</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2025</span>
-                    <h3>Plantoes e Dedicacao</h3>
+                    <h3>Plantões e Dedicação</h3>
                     <p>Noites em claro cuidando de quem mais precisa</p>
                 </div>
             </div>
@@ -1096,42 +1159,42 @@
 
     <!-- Event Details -->
     <section class="event-section" id="evento">
-        <p class="section-label">Programacao</p>
+        <p class="section-label">Programação</p>
         <h2 class="section-title">Eventos da <em>Formatura</em></h2>
-        <p class="section-subtitle">Tres dias de celebracao para marcar essa conquista</p>
+        <p class="section-subtitle">Três dias de celebração para marcar essa conquista</p>
 
         <div class="event-cards">
-            <!-- Colacao de Grau -->
+            <!-- Colação de Grau -->
             <div class="event-card">
                 <div class="event-card-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
                     </svg>
                 </div>
-                <h3>Colacao de Grau</h3>
-                <p>18 de Dezembro de 2026<br>as 18h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
+                <h3>Colação de Grau</h3>
+                <p>18 de Dezembro de 2026<br>às 18h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
             </div>
 
-            <!-- Culto Ecumenico -->
+            <!-- Culto Ecumênico -->
             <div class="event-card">
                 <div class="event-card-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
                     </svg>
                 </div>
-                <h3>Culto Ecumenico</h3>
-                <p>19 de Dezembro de 2026<br>as 10h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
+                <h3>Culto Ecumênico</h3>
+                <p>19 de Dezembro de 2026<br>às 10h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
             </div>
 
             <!-- Baile de Formatura -->
             <div class="event-card" style="border-color: rgba(212,175,105,0.3);">
                 <div class="event-card-icon" style="background: linear-gradient(135deg, #d4af69, #c9a84c);">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
                     </svg>
                 </div>
                 <h3>Baile de Formatura</h3>
-                <p>20 de Dezembro de 2026<br>as 21h00<br><a href="#ingresso">Adquira seu ingresso</a></p>
+                <p>20 de Dezembro de 2026<br>às 21h00<br><a href="#ingresso">Adquira seu ingresso</a></p>
             </div>
         </div>
     </section>
@@ -1148,15 +1211,16 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Seu Nome</label>
-                            <input type="text" id="msgName" placeholder="Como voce se chama?" maxlength="50">
+                            <input type="text" id="msgName" placeholder="Como você se chama?" maxlength="50">
                         </div>
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label>Sua Mensagem</label>
                         <textarea id="msgText" placeholder="Escreva seu recado para a Dra. Rafaella..." maxlength="500"></textarea>
                     </div>
-                    <button class="submit-message" id="sendBtn" onclick="sendMessage()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <div class="form-error" id="formError">Por favor, preencha seu nome e mensagem.</div>
+                    <button class="submit-message" id="sendBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
                         </svg>
                         Enviar Recado
@@ -1170,7 +1234,7 @@
                 </div>
             </div>
 
-            <div id="messagesWall" class="messages-wall">
+            <div id="messagesWall" class="messages-wall" aria-live="polite">
                 <div class="messages-empty" id="emptyState">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -1185,19 +1249,19 @@
     <section class="rsvp-banner" id="presenca">
         <div class="rsvp-banner-inner">
             <div class="rsvp-banner-text">
-                <h3>Confirme sua <em>Presenca</em></h3>
-                <p>Preencha o formulario para confirmar</p>
+                <h3>Confirme sua <em>Presença</em></h3>
+                <p>Preencha o formulário para confirmar</p>
             </div>
             <a href="https://forms.gle/SUBSTITUA_PELO_SEU_LINK" target="_blank" class="rsvp-form-button">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
-                Confirmar Presenca
+                Confirmar Presença
             </a>
         </div>
     </section>
 
-    <!-- Ingresso Simbolico -->
+    <!-- Ingresso Simbólico -->
     <section class="ticket-section" id="ingresso">
         <div class="ticket-content">
             <div class="ticket-visual">
@@ -1210,7 +1274,7 @@
                         <p class="ticket-detail-value">20/12/2026</p>
                     </div>
                     <div class="ticket-detail-item">
-                        <p class="ticket-detail-label">Horario</p>
+                        <p class="ticket-detail-label">Horário</p>
                         <p class="ticket-detail-value">19h00</p>
                     </div>
                     <div class="ticket-detail-item">
@@ -1223,13 +1287,13 @@
             <h2>Adquira seu <em>Ingresso</em></h2>
             <p class="ticket-desc">Garanta seu ingresso para o Baile de Formatura e celebre essa noite especial conosco!</p>
             <a href="https://exemplo.com/ingresso" target="_blank" class="ticket-button">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
                     <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
                 </svg>
                 Garantir Meu Ingresso
             </a>
-            <p class="ticket-note">Pagamento via PIX ou transferencia</p>
+            <p class="ticket-note">Pagamento via PIX ou transferência</p>
         </div>
     </section>
 
@@ -1241,182 +1305,226 @@
     </footer>
 
     <script>
-        // ===== Firebase Config =====
-        // IMPORTANTE: Substitua com suas credenciais do Firebase
-        const firebaseConfig = {
-            apiKey: "SUA_API_KEY",
-            authDomain: "SEU_PROJETO.firebaseapp.com",
-            databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
-            projectId: "SEU_PROJETO",
-            storageBucket: "SEU_PROJETO.appspot.com",
-            messagingSenderId: "SEU_SENDER_ID",
-            appId: "SEU_APP_ID"
-        };
-
-        let db = null;
-        let useFirebase = false;
-
-        try {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.database();
-            // Testa se a conexao funciona
-            db.ref('.info/connected').on('value', (snap) => {
-                if (snap.val() === true) {
-                    useFirebase = true;
-                    loadMessages();
-                }
-            });
-        } catch(e) {
-            console.log('Firebase nao configurado. Usando localStorage.');
-        }
-
-        // Fallback: localStorage
-        function getLocalMessages() {
-            try {
-                return JSON.parse(localStorage.getItem('rafaella_messages') || '[]');
-            } catch { return []; }
-        }
-
-        function saveLocalMessage(msg) {
-            const msgs = getLocalMessages();
-            msgs.unshift(msg);
-            localStorage.setItem('rafaella_messages', JSON.stringify(msgs));
-        }
-
-        function loadMessages() {
-            if (useFirebase && db) {
-                db.ref('messages').orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
-                    const messages = [];
-                    snapshot.forEach((child) => {
-                        messages.push(child.val());
-                    });
-                    messages.reverse();
-                    renderMessages(messages);
-                });
-            } else {
-                renderMessages(getLocalMessages());
-            }
-        }
-
-        function renderMessages(messages) {
-            const wall = document.getElementById('messagesWall');
-            const empty = document.getElementById('emptyState');
-
-            if (messages.length === 0) {
-                empty.style.display = 'block';
-                wall.innerHTML = '';
-                wall.appendChild(empty);
-                return;
-            }
-
-            empty.style.display = 'none';
-            wall.innerHTML = messages.map(m => `
-                <div class="message-card">
-                    <p class="message-author">${escapeHtml(m.name)}</p>
-                    <p class="message-text">${escapeHtml(m.text)}</p>
-                    <p class="message-date">${formatDate(m.timestamp)}</p>
-                </div>
-            `).join('');
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatDate(ts) {
-            if (!ts) return '';
-            const d = new Date(ts);
-            const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-            return `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
-        }
-
-        function sendMessage() {
-            const name = document.getElementById('msgName').value.trim();
-            const text = document.getElementById('msgText').value.trim();
-            const btn = document.getElementById('sendBtn');
-
-            if (!name || !text) {
-                alert('Por favor, preencha seu nome e mensagem.');
-                return;
-            }
-
-            btn.disabled = true;
-
-            const message = {
-                name: name,
-                text: text,
-                timestamp: Date.now()
+        document.addEventListener('DOMContentLoaded', function() {
+            // ===== Firebase Config =====
+            // IMPORTANTE: Substitua com suas credenciais do Firebase
+            const firebaseConfig = {
+                apiKey: "SUA_API_KEY",
+                authDomain: "SEU_PROJETO.firebaseapp.com",
+                databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+                projectId: "SEU_PROJETO",
+                storageBucket: "SEU_PROJETO.appspot.com",
+                messagingSenderId: "SEU_SENDER_ID",
+                appId: "SEU_APP_ID"
             };
 
-            if (useFirebase && db) {
-                db.ref('messages').push(message).then(() => {
-                    showSuccess();
-                }).catch(() => {
+            let db = null;
+            let useFirebase = false;
+
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.database();
+                // Testa se a conexão funciona
+                db.ref('.info/connected').on('value', function(snap) {
+                    if (snap.val() === true) {
+                        useFirebase = true;
+                        loadMessages();
+                    }
+                });
+            } catch(e) {
+                console.log('Firebase não configurado. Usando localStorage.');
+            }
+
+            // Fallback: localStorage
+            function getLocalMessages() {
+                try {
+                    return JSON.parse(localStorage.getItem('rafaella_messages') || '[]');
+                } catch(e) { return []; }
+            }
+
+            function saveLocalMessage(msg) {
+                const msgs = getLocalMessages();
+                msgs.unshift(msg);
+                localStorage.setItem('rafaella_messages', JSON.stringify(msgs));
+            }
+
+            function loadMessages() {
+                if (useFirebase && db) {
+                    db.ref('messages').orderByChild('timestamp').limitToLast(50).on('value', function(snapshot) {
+                        const messages = [];
+                        snapshot.forEach(function(child) {
+                            messages.push(child.val());
+                        });
+                        messages.reverse();
+                        renderMessages(messages);
+                    });
+                } else {
+                    renderMessages(getLocalMessages());
+                }
+            }
+
+            function renderMessages(messages) {
+                const wall = document.getElementById('messagesWall');
+                const empty = document.getElementById('emptyState');
+
+                if (messages.length === 0) {
+                    empty.style.display = 'block';
+                    wall.innerHTML = '';
+                    wall.appendChild(empty);
+                    return;
+                }
+
+                empty.style.display = 'none';
+                wall.innerHTML = messages.map(function(m) {
+                    return '<div class="message-card">' +
+                        '<p class="message-author">' + escapeHtml(m.name) + '</p>' +
+                        '<p class="message-text">' + escapeHtml(m.text) + '</p>' +
+                        '<p class="message-date">' + formatDate(m.timestamp) + '</p>' +
+                    '</div>';
+                }).join('');
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function formatDate(ts) {
+                if (!ts) return '';
+                const d = new Date(ts);
+                const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+                return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
+            }
+
+            // ===== Form: addEventListener + inline error =====
+            var sendBtn = document.getElementById('sendBtn');
+            var formError = document.getElementById('formError');
+            var nameInput = document.getElementById('msgName');
+            var textInput = document.getElementById('msgText');
+
+            // Clear error on input
+            nameInput.addEventListener('input', function() {
+                nameInput.classList.remove('input-error');
+                formError.classList.remove('visible');
+            });
+            textInput.addEventListener('input', function() {
+                textInput.classList.remove('input-error');
+                formError.classList.remove('visible');
+            });
+
+            sendBtn.addEventListener('click', function() {
+                var name = nameInput.value.trim();
+                var text = textInput.value.trim();
+
+                // Clear previous errors
+                nameInput.classList.remove('input-error');
+                textInput.classList.remove('input-error');
+                formError.classList.remove('visible');
+
+                if (!name || !text) {
+                    if (!name) nameInput.classList.add('input-error');
+                    if (!text) textInput.classList.add('input-error');
+                    formError.classList.add('visible');
+                    return;
+                }
+
+                sendBtn.disabled = true;
+
+                var message = {
+                    name: name,
+                    text: text,
+                    timestamp: Date.now()
+                };
+
+                if (useFirebase && db) {
+                    db.ref('messages').push(message).then(function() {
+                        showSuccess();
+                    }).catch(function() {
+                        saveLocalMessage(message);
+                        showSuccess();
+                        loadMessages();
+                    });
+                } else {
                     saveLocalMessage(message);
                     showSuccess();
                     loadMessages();
+                }
+            });
+
+            function showSuccess() {
+                document.getElementById('formFields').style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+
+                setTimeout(function() {
+                    document.getElementById('formFields').style.display = 'block';
+                    document.getElementById('formSuccess').style.display = 'none';
+                    nameInput.value = '';
+                    textInput.value = '';
+                    nameInput.classList.remove('input-error');
+                    textInput.classList.remove('input-error');
+                    formError.classList.remove('visible');
+                    sendBtn.disabled = false;
+                }, 3000);
+            }
+
+            // Carrega mensagens locais ao iniciar
+            if (!useFirebase) loadMessages();
+
+            // ===== Countdown (com timezone Brasília e tratamento pós-evento) =====
+            var countdownInterval;
+            function updateCountdown() {
+                var target = new Date('2026-12-20T19:00:00-03:00').getTime();
+                var now = Date.now();
+                var diff = target - now;
+
+                if (diff <= 0) {
+                    // Evento chegou!
+                    var countdownEl = document.querySelector('.countdown');
+                    countdownEl.innerHTML = '<p class="countdown-finished">O grande dia chegou!</p>';
+                    clearInterval(countdownInterval);
+                    return;
+                }
+
+                updateUnit('days', Math.floor(diff / 86400000));
+                updateUnit('hours', Math.floor((diff / 3600000) % 24));
+                updateUnit('minutes', Math.floor((diff / 60000) % 60));
+                updateUnit('seconds', Math.floor((diff / 1000) % 60));
+            }
+
+            function updateUnit(id, val) {
+                var el = document.getElementById(id);
+                var v = String(val).padStart(2, '0');
+                if (el.textContent !== v) {
+                    el.classList.add('tick');
+                    el.textContent = v;
+                    setTimeout(function() { el.classList.remove('tick'); }, 300);
+                }
+            }
+
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+
+            // Navbar scroll
+            var nav = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                nav.classList.toggle('scrolled', window.scrollY > 80);
+            });
+
+            // Intersection Observer
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        obs.unobserve(e.target);
+                    }
                 });
-            } else {
-                saveLocalMessage(message);
-                showSuccess();
-                loadMessages();
-            }
-        }
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-        function showSuccess() {
-            document.getElementById('formFields').style.display = 'none';
-            document.getElementById('formSuccess').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('formFields').style.display = 'block';
-                document.getElementById('formSuccess').style.display = 'none';
-                document.getElementById('msgName').value = '';
-                document.getElementById('msgText').value = '';
-                document.getElementById('sendBtn').disabled = false;
-            }, 3000);
-        }
-
-        // Carrega mensagens locais ao iniciar
-        if (!useFirebase) loadMessages();
-
-        // ===== Countdown =====
-        function updateCountdown() {
-            const target = new Date('2026-12-20T19:00:00').getTime();
-            const now = Date.now();
-            const diff = target - now;
-            if (diff > 0) {
-                update('days', Math.floor(diff / 86400000));
-                update('hours', Math.floor((diff / 3600000) % 24));
-                update('minutes', Math.floor((diff / 60000) % 60));
-                update('seconds', Math.floor((diff / 1000) % 60));
-            }
-        }
-        function update(id, val) {
-            const el = document.getElementById(id);
-            const v = String(val).padStart(2, '0');
-            if (el.textContent !== v) {
-                el.classList.add('tick');
-                el.textContent = v;
-                setTimeout(() => el.classList.remove('tick'), 300);
-            }
-        }
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-
-        // Navbar scroll
-        const nav = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('scrolled', window.scrollY > 80);
+            document.querySelectorAll('.timeline-item, .event-card, .message-card').forEach(function(el) {
+                obs.observe(el);
+            });
         });
-
-        // Intersection Observer
-        const obs = new IntersectionObserver(entries => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-        document.querySelectorAll('.timeline-item, .event-card, .message-card').forEach(el => obs.observe(el));
     </script>
 </body>
 </html>
