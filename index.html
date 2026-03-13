@@ -27,21 +27,21 @@
     <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
     <style>
         :root {
-            --gold: #912B48;
-            --gold-dark: #610027;
-            --gold-darker: #610027;
-            --dark-bg: #610027;
-            --dark-secondary: #7a1f3a;
-            --dark-tertiary: #912B48;
-            --dark-quaternary: #B45A69;
-            --light-bg: #fff5f7;
-            --light-section: #fce8ed;
+            --gold: #70020F;
+            --gold-dark: #4a0008;
+            --gold-darker: #4a0008;
+            --dark-bg: #4a0008;
+            --dark-secondary: #5a010c;
+            --dark-tertiary: #70020F;
+            --dark-quaternary: #9e3040;
+            --light-bg: #FFF5F6;
+            --light-section: #FFDEE2;
             --text-primary: #2c2c2c;
             --text-secondary: #777;
             --text-muted: #999;
             --text-light: #bbb;
-            --gold-alpha-15: rgba(145,43,72,0.15);
-            --gold-alpha-10: rgba(145,43,72,0.1);
+            --gold-alpha-15: rgba(112,2,15,0.15);
+            --gold-alpha-10: rgba(112,2,15,0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,7 +56,7 @@
 
         body {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            background: #fff5f7;
+            background: #FFF5F6;
             min-height: 100vh;
             overflow-x: hidden;
             color: #2c2c2c;
@@ -97,7 +97,7 @@
             position: relative;
         }
 
-        .nav.scrolled a { color: #610027; }
+        .nav.scrolled a { color: #4a0008; }
 
         .nav a::after {
             content: '';
@@ -121,7 +121,7 @@
             justify-content: center;
             padding: 60px 20px;
             position: relative;
-            background: linear-gradient(160deg, #610027 0%, #7a1f3a 30%, #912B48 60%, #B45A69 100%);
+            background: linear-gradient(160deg, #4a0008 0%, #5a010c 30%, #70020F 60%, #9e3040 100%);
         }
 
         .hero::before {
@@ -131,7 +131,7 @@
             right: -20%;
             width: 80%;
             height: 200%;
-            background: radial-gradient(ellipse, rgba(145,43,72,0.12) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(112,2,15,0.12) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -142,14 +142,14 @@
             left: 0;
             right: 0;
             height: 150px;
-            background: linear-gradient(to top, #fff5f7, transparent);
+            background: linear-gradient(to top, #FFF5F6, transparent);
             pointer-events: none;
         }
 
         .hero-ornament {
             font-family: 'Cormorant Garamond', serif;
             font-size: 20px;
-            color: rgba(145,43,72,0.4);
+            color: rgba(112,2,15,0.4);
             letter-spacing: 15px;
             margin-bottom: 30px;
             animation: fadeIn 1s ease 0.2s both;
@@ -160,7 +160,7 @@
             height: 180px;
             border-radius: 50%;
             padding: 4px;
-            background: linear-gradient(135deg, rgba(145,43,72,0.5), rgba(145,43,72,0.15));
+            background: linear-gradient(135deg, rgba(112,2,15,0.5), rgba(112,2,15,0.15));
             margin-bottom: 40px;
             animation: fadeIn 1s ease 0.3s both;
             position: relative;
@@ -170,7 +170,7 @@
             content: '';
             position: absolute;
             inset: -15px;
-            border: 1px solid rgba(145,43,72,0.2);
+            border: 1px solid rgba(112,2,15,0.2);
             border-radius: 50%;
             animation: spinSlow 20s linear infinite;
         }
@@ -179,7 +179,7 @@
             content: '';
             position: absolute;
             inset: -30px;
-            border: 1px dashed rgba(145,43,72,0.1);
+            border: 1px dashed rgba(112,2,15,0.1);
             border-radius: 50%;
             animation: spinSlow 30s linear infinite reverse;
         }
@@ -203,7 +203,7 @@
             font-weight: 500;
             letter-spacing: 8px;
             text-transform: uppercase;
-            color: rgba(145,43,72,0.7);
+            color: rgba(112,2,15,0.7);
             margin-bottom: 15px;
             animation: fadeInUp 0.8s ease 0.5s both;
         }
@@ -221,7 +221,7 @@
         .hero h1 em {
             font-style: italic;
             font-weight: 400;
-            background: linear-gradient(90deg, #912B48, #FCD0D9);
+            background: linear-gradient(90deg, #70020F, #FFDEE2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -230,7 +230,7 @@
         .hero-divider {
             width: 60px;
             height: 1px;
-            background: rgba(145,43,72,0.4);
+            background: rgba(112,2,15,0.4);
             margin: 25px 0;
             animation: fadeIn 1s ease 0.8s both;
         }
@@ -242,7 +242,7 @@
             -webkit-backdrop-filter: blur(30px);
             border-radius: 20px;
             padding: 35px 50px;
-            border: 1px solid rgba(145,43,72,0.15);
+            border: 1px solid rgba(112,2,15,0.15);
             margin-bottom: 25px;
             animation: fadeInUp 0.8s ease 0.9s both;
         }
@@ -252,7 +252,7 @@
             font-size: 10px;
             letter-spacing: 5px;
             text-transform: uppercase;
-            color: rgba(145,43,72,0.5);
+            color: rgba(112,2,15,0.5);
             text-align: center;
             margin-bottom: 20px;
         }
@@ -277,7 +277,7 @@
 
         .countdown-sep {
             font-size: 36px;
-            color: rgba(145,43,72,0.25);
+            color: rgba(112,2,15,0.25);
             align-self: center;
             font-weight: 200;
         }
@@ -311,7 +311,7 @@
         .scroll-line {
             width: 1px;
             height: 40px;
-            background: linear-gradient(to bottom, rgba(145,43,72,0.4), transparent);
+            background: linear-gradient(to bottom, rgba(112,2,15,0.4), transparent);
             animation: scrollPulse 2s infinite;
         }
 
@@ -322,7 +322,7 @@
             font-weight: 500;
             letter-spacing: 6px;
             text-transform: uppercase;
-            color: #610027;
+            color: #4a0008;
             text-align: center;
             margin-bottom: 15px;
         }
@@ -338,7 +338,7 @@
         .section-title em {
             font-style: italic;
             font-weight: 400;
-            color: #912B48;
+            color: #70020F;
         }
 
         .section-subtitle {
@@ -368,7 +368,7 @@
             top: 0;
             bottom: 0;
             width: 1px;
-            background: linear-gradient(180deg, transparent, #912B48 10%, #610027 50%, #912B48 90%, transparent);
+            background: linear-gradient(180deg, transparent, #70020F 10%, #4a0008 50%, #70020F 90%, transparent);
             transform: translateX(-50%);
         }
 
@@ -396,14 +396,14 @@
             width: 44px;
             height: 44px;
             background: white;
-            border: 2px solid #912B48;
+            border: 2px solid #70020F;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
             font-weight: 500;
-            color: #912B48;
+            color: #70020F;
             font-family: 'Montserrat', sans-serif;
             z-index: 2;
             transition: all 0.3s;
@@ -411,9 +411,9 @@
 
         .timeline-dot:hover {
             transform: translateX(-50%) scale(1.15);
-            background: #912B48;
+            background: #70020F;
             color: white;
-            box-shadow: 0 5px 20px rgba(145,43,72,0.3);
+            box-shadow: 0 5px 20px rgba(112,2,15,0.3);
         }
 
         .timeline-card {
@@ -422,20 +422,20 @@
             border-radius: 16px;
             padding: 28px;
             box-shadow: 0 4px 30px rgba(0,0,0,0.04);
-            border: 1px solid rgba(145,43,72,0.12);
+            border: 1px solid rgba(112,2,15,0.12);
             transition: all 0.3s;
         }
 
         .timeline-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(145,43,72,0.12);
+            box-shadow: 0 12px 40px rgba(112,2,15,0.12);
         }
 
         .timeline-year {
             font-family: 'Montserrat', sans-serif;
             font-size: 11px;
             font-weight: 600;
-            color: #610027;
+            color: #4a0008;
             letter-spacing: 3px;
         }
 
@@ -457,7 +457,7 @@
         /* ===== EVENT DETAILS ===== */
         .event-section {
             padding: 120px 20px;
-            background: linear-gradient(180deg, #fff5f7, #fce8ed, #fff5f7);
+            background: linear-gradient(180deg, #FFF5F6, #FFDEE2, #FFF5F6);
         }
 
         .event-cards {
@@ -474,20 +474,20 @@
             padding: 40px 30px;
             text-align: center;
             box-shadow: 0 4px 30px rgba(0,0,0,0.04);
-            border: 1px solid rgba(145,43,72,0.1);
+            border: 1px solid rgba(112,2,15,0.1);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .event-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(145,43,72,0.15);
+            box-shadow: 0 20px 50px rgba(112,2,15,0.15);
         }
 
         .event-card-icon {
             width: 60px;
             height: 60px;
             margin: 0 auto 20px;
-            background: linear-gradient(135deg, #fce8ed, #f5cdd5);
+            background: linear-gradient(135deg, #FFDEE2, #ffd0d6);
             border-radius: 16px;
             display: flex;
             align-items: center;
@@ -510,19 +510,19 @@
         }
 
         .event-card a {
-            color: #912B48;
+            color: #70020F;
             text-decoration: none;
             font-weight: 500;
             border-bottom: 1px solid transparent;
             transition: border-color 0.3s;
         }
 
-        .event-card a:hover { border-bottom-color: #912B48; }
+        .event-card a:hover { border-bottom-color: #70020F; }
 
         /* ===== PRESENÇA (formulário por família) ===== */
         .presenca-section {
             padding: 100px 20px;
-            background: linear-gradient(180deg, #fff5f7, #fce8ed);
+            background: linear-gradient(180deg, #FFF5F6, #FFDEE2);
         }
 
         .presenca-container {
@@ -535,7 +535,7 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 4px 30px rgba(0,0,0,0.06);
-            border: 1px solid rgba(145,43,72,0.15);
+            border: 1px solid rgba(112,2,15,0.15);
         }
 
         .presenca-form label {
@@ -552,19 +552,19 @@
         .presenca-form input[type="text"] {
             width: 100%;
             padding: 14px 18px;
-            border: 1px solid #f0d0d8;
+            border: 1px solid #ffd0d6;
             border-radius: 12px;
             font-family: 'Cormorant Garamond', serif;
             font-size: 18px;
             color: #2c2c2c;
-            background: #fff5f7;
+            background: #FFF5F6;
             transition: border-color 0.3s;
             box-sizing: border-box;
         }
 
         .presenca-form input[type="text"]:focus {
             outline: none;
-            border-color: #912B48;
+            border-color: #70020F;
         }
 
         .presenca-add-row {
@@ -579,7 +579,7 @@
         }
 
         .presenca-add-btn {
-            background: linear-gradient(135deg, #912B48, #610027);
+            background: linear-gradient(135deg, #70020F, #4a0008);
             color: white;
             border: none;
             border-radius: 12px;
@@ -594,7 +594,7 @@
 
         .presenca-add-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(145,43,72,0.3);
+            box-shadow: 0 4px 15px rgba(112,2,15,0.3);
         }
 
         .presenca-members {
@@ -608,7 +608,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 10px 15px;
-            background: #fff5f7;
+            background: #FFF5F6;
             border-radius: 10px;
             margin-bottom: 8px;
             font-family: 'Montserrat', sans-serif;
@@ -626,8 +626,8 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: rgba(145,43,72,0.15);
-            color: #912B48;
+            background: rgba(112,2,15,0.15);
+            color: #70020F;
             font-size: 11px;
             font-weight: 600;
             display: flex;
@@ -652,7 +652,7 @@
         .presenca-submit {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #912B48, #610027);
+            background: linear-gradient(135deg, #70020F, #4a0008);
             color: white;
             border: none;
             border-radius: 60px;
@@ -660,13 +660,13 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(145,43,72,0.25);
+            box-shadow: 0 6px 20px rgba(112,2,15,0.25);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .presenca-submit:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(145,43,72,0.35);
+            box-shadow: 0 12px 30px rgba(112,2,15,0.35);
         }
 
         .presenca-submit:disabled {
@@ -714,14 +714,14 @@
         }
 
         .presenca-counter strong {
-            color: #912B48;
+            color: #70020F;
             font-weight: 600;
         }
 
         /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
         .ticket-section {
             padding: 120px 20px;
-            background: linear-gradient(135deg, #610027 0%, #7a1f3a 40%, #912B48 100%);
+            background: linear-gradient(135deg, #4a0008 0%, #5a010c 40%, #70020F 100%);
             position: relative;
             overflow: hidden;
         }
@@ -733,7 +733,7 @@
             right: -15%;
             width: 60%;
             height: 160%;
-            background: radial-gradient(ellipse, rgba(145,43,72,0.08) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(112,2,15,0.08) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -746,7 +746,7 @@
 
         .ticket-visual {
             background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(145,43,72,0.2);
+            border: 1px solid rgba(112,2,15,0.2);
             border-radius: 24px;
             padding: 50px 40px;
             margin-bottom: 40px;
@@ -760,7 +760,7 @@
             position: absolute;
             width: 30px;
             height: 30px;
-            background: linear-gradient(135deg, #610027, #7a1f3a);
+            background: linear-gradient(135deg, #4a0008, #5a010c);
             border-radius: 50%;
             top: 50%;
             transform: translateY(-50%);
@@ -770,7 +770,7 @@
         .ticket-visual::after { right: -15px; }
 
         .ticket-dashed {
-            border-top: 1px dashed rgba(145,43,72,0.2);
+            border-top: 1px dashed rgba(112,2,15,0.2);
             margin: 25px 30px;
         }
 
@@ -779,7 +779,7 @@
             font-size: 9px;
             letter-spacing: 5px;
             text-transform: uppercase;
-            color: rgba(145,43,72,0.5);
+            color: rgba(112,2,15,0.5);
             margin-bottom: 12px;
         }
 
@@ -813,7 +813,7 @@
             font-size: 8px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: rgba(145,43,72,0.4);
+            color: rgba(112,2,15,0.4);
             margin-bottom: 5px;
         }
 
@@ -833,7 +833,7 @@
         .ticket-section h2 em {
             font-style: italic;
             font-weight: 400;
-            background: linear-gradient(90deg, #912B48, #FCD0D9);
+            background: linear-gradient(90deg, #70020F, #FFDEE2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -852,21 +852,21 @@
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: linear-gradient(135deg, #912B48, #610027);
-            color: #610027;
+            background: linear-gradient(135deg, #70020F, #4a0008);
+            color: #4a0008;
             padding: 18px 44px;
             border-radius: 60px;
             font-size: 15px;
             font-weight: 600;
             text-decoration: none;
             font-family: 'Montserrat', sans-serif;
-            box-shadow: 0 8px 30px rgba(145,43,72,0.25);
+            box-shadow: 0 8px 30px rgba(112,2,15,0.25);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .ticket-button:hover {
             transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(145,43,72,0.4);
+            box-shadow: 0 16px 40px rgba(112,2,15,0.4);
         }
 
         .ticket-note {
@@ -879,7 +879,7 @@
         /* ===== MURAL DE RECADOS ===== */
         .messages-section {
             padding: 120px 20px;
-            background: linear-gradient(180deg, #fff5f7, #fce8ed, #fff5f7);
+            background: linear-gradient(180deg, #FFF5F6, #FFDEE2, #FFF5F6);
         }
 
         .messages-container {
@@ -892,7 +892,7 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 4px 30px rgba(0,0,0,0.04);
-            border: 1px solid rgba(145,43,72,0.1);
+            border: 1px solid rgba(112,2,15,0.1);
             margin-bottom: 50px;
         }
 
@@ -921,20 +921,20 @@
         .form-group textarea {
             width: 100%;
             padding: 14px 18px;
-            border: 1px solid #f0d0d8;
+            border: 1px solid #ffd0d6;
             border-radius: 12px;
             font-family: 'Cormorant Garamond', serif;
             font-size: 16px;
             color: #2c2c2c;
-            background: #fff5f7;
+            background: #FFF5F6;
             transition: all 0.3s;
             outline: none;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
-            border-color: #912B48;
-            box-shadow: 0 0 0 3px rgba(145,43,72,0.1);
+            border-color: #70020F;
+            box-shadow: 0 0 0 3px rgba(112,2,15,0.1);
         }
 
         .form-group textarea {
@@ -951,7 +951,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(135deg, #912B48, #610027);
+            background: linear-gradient(135deg, #70020F, #4a0008);
             color: white;
             padding: 14px 36px;
             border-radius: 60px;
@@ -960,13 +960,13 @@
             font-family: 'Montserrat', sans-serif;
             border: none;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(145,43,72,0.25);
+            box-shadow: 0 6px 20px rgba(112,2,15,0.25);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .submit-message:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(145,43,72,0.35);
+            box-shadow: 0 12px 30px rgba(112,2,15,0.35);
         }
 
         .submit-message:disabled {
@@ -986,7 +986,7 @@
             border-radius: 16px;
             padding: 28px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            border: 1px solid rgba(145,43,72,0.08);
+            border: 1px solid rgba(112,2,15,0.08);
             animation: fadeInUp 0.5s ease both;
             position: relative;
         }
@@ -997,7 +997,7 @@
             top: 15px;
             right: 20px;
             font-size: 50px;
-            color: rgba(145,43,72,0.12);
+            color: rgba(112,2,15,0.12);
             font-family: 'Cormorant Garamond', serif;
             line-height: 1;
         }
@@ -1006,7 +1006,7 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 12px;
             font-weight: 600;
-            color: #912B48;
+            color: #70020F;
             letter-spacing: 1px;
             margin-bottom: 10px;
         }
@@ -1045,7 +1045,7 @@
             display: none;
             text-align: center;
             padding: 30px;
-            color: #912B48;
+            color: #70020F;
             font-size: 18px;
             font-style: italic;
         }
@@ -1058,14 +1058,14 @@
         /* ===== FOOTER ===== */
         footer {
             padding: 60px 20px;
-            background: #4a0020;
+            background: #3a0008;
             text-align: center;
         }
 
         .footer-divider {
             width: 40px;
             height: 1px;
-            background: rgba(145,43,72,0.2);
+            background: rgba(112,2,15,0.2);
             margin: 0 auto 25px;
         }
 
@@ -1123,14 +1123,14 @@
             max-width: 700px;
             margin: 40px auto 0;
             padding: 30px;
-            background: #fff5f7;
-            border: 2px solid #912B48;
+            background: #FFF5F6;
+            border: 2px solid #70020F;
             border-radius: 16px;
         }
 
         .admin-title {
             font-size: 22px;
-            color: #912B48;
+            color: #70020F;
             margin-bottom: 5px;
         }
 
@@ -1143,7 +1143,7 @@
 
         .admin-card {
             background: white;
-            border: 1px solid rgba(145,43,72,0.15);
+            border: 1px solid rgba(112,2,15,0.15);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
@@ -1151,7 +1151,7 @@
 
         .admin-card .message-author {
             font-weight: 600;
-            color: #912B48;
+            color: #70020F;
             margin-bottom: 4px;
         }
 
@@ -1185,12 +1185,12 @@
         }
 
         .admin-btn-approve {
-            background: #912B48;
+            background: #70020F;
             color: white;
         }
 
         .admin-btn-approve:hover {
-            background: #610027;
+            background: #4a0008;
         }
 
         .admin-btn-reject {
@@ -1396,7 +1396,7 @@
             <!-- Culto Ecumênico -->
             <div class="event-card">
                 <div class="event-card-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#70020F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
                     </svg>
                 </div>
@@ -1407,7 +1407,7 @@
             <!-- Colação de Grau -->
             <div class="event-card">
                 <div class="event-card-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#70020F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
                     </svg>
                 </div>
@@ -1416,8 +1416,8 @@
             </div>
 
             <!-- Baile de Formatura -->
-            <div class="event-card" style="border-color: rgba(145,43,72,0.3);">
-                <div class="event-card-icon" style="background: linear-gradient(135deg, #912B48, #610027);">
+            <div class="event-card" style="border-color: rgba(112,2,15,0.3);">
+                <div class="event-card-icon" style="background: linear-gradient(135deg, #70020F, #4a0008);">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
                     </svg>
@@ -1456,7 +1456,7 @@
                     </button>
                 </div>
                 <div class="form-success" id="formSuccess">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#70020F" stroke-width="1.5">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
                     <p>Recado enviado com carinho!</p>
@@ -1469,7 +1469,7 @@
                 <h3 class="admin-title">Painel de Moderação</h3>
                 <p class="admin-subtitle">Recados pendentes de aprovação</p>
                 <div id="adminPending" class="admin-pending"></div>
-                <hr style="border:none;border-top:1px solid rgba(145,43,72,0.15);margin:20px 0;">
+                <hr style="border:none;border-top:1px solid rgba(112,2,15,0.15);margin:20px 0;">
                 <p class="admin-subtitle">Recados aprovados</p>
                 <div id="adminApproved" class="admin-approved"></div>
             </div>
@@ -1517,7 +1517,7 @@
                 </div>
 
                 <div class="presenca-success" id="presencaSuccess">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#70020F" stroke-width="1.5">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
                     <p>Presença confirmada!</p>
