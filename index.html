@@ -7,7 +7,7 @@
 
     <!-- Open Graph / Social -->
     <meta property="og:title" content="Formatura Dra. Rafaella Chaveiro">
-    <meta property="og:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Dezembro de 2026.">
+    <meta property="og:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Janeiro de 2027.">
     <meta property="og:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
     <meta property="og:url" content="https://rafaellachaveiro.com.br">
     <meta property="og:type" content="website">
@@ -15,7 +15,7 @@
     <meta name="twitter:title" content="Formatura Dra. Rafaella Chaveiro">
     <meta name="twitter:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro!">
     <meta name="twitter:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
-    <meta name="description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Dezembro de 2026.">
+    <meta name="description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Janeiro de 2027.">
     <link rel="icon" type="image/png" href="rafaella-foto.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -519,66 +519,203 @@
 
         .event-card a:hover { border-bottom-color: #b8943f; }
 
-        /* ===== RSVP (compacto) ===== */
-        .rsvp-banner {
-            padding: 50px 20px;
+        /* ===== PRESENÇA (formulário por família) ===== */
+        .presenca-section {
+            padding: 100px 20px;
             background: linear-gradient(180deg, #faf9f6, #f5f0e8);
-            text-align: center;
         }
 
-        .rsvp-banner-inner {
-            max-width: 600px;
+        .presenca-container {
+            max-width: 560px;
             margin: 0 auto;
+        }
+
+        .presenca-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+            border: 1px solid rgba(212,175,105,0.15);
+        }
+
+        .presenca-form label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .presenca-form input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #e8e4dc;
+            border-radius: 12px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: #2c2c2c;
+            background: #faf9f6;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .presenca-form input[type="text"]:focus {
+            outline: none;
+            border-color: #d4af69;
+        }
+
+        .presenca-add-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .presenca-add-row input {
+            flex: 1;
+        }
+
+        .presenca-add-btn {
+            background: linear-gradient(135deg, #d4af69, #c9a84c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .presenca-add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212,175,105,0.3);
+        }
+
+        .presenca-members {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 25px;
+        }
+
+        .presenca-members li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: #faf9f6;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            color: #2c2c2c;
+        }
+
+        .presenca-members li .member-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .presenca-members li .member-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(212,175,105,0.15);
+            color: #b8943f;
+            font-size: 11px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
         }
 
-        .rsvp-banner-text {
-            text-align: left;
+        .presenca-remove-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 5px;
+            transition: color 0.3s;
         }
 
-        .rsvp-banner-text h3 {
-            font-size: 24px;
-            font-weight: 400;
+        .presenca-remove-btn:hover {
+            color: #e74c3c;
+        }
+
+        .presenca-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #d4af69, #c9a84c);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(212,175,105,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .presenca-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212,175,105,0.35);
+        }
+
+        .presenca-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .presenca-error {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .presenca-success {
+            text-align: center;
+            display: none;
+        }
+
+        .presenca-success svg {
+            margin-bottom: 10px;
+        }
+
+        .presenca-success p {
+            font-size: 18px;
             color: #2c2c2c;
             margin-bottom: 5px;
         }
 
-        .rsvp-banner-text h3 em {
-            color: #b8943f;
-            font-style: italic;
+        .presenca-success .presenca-success-detail {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #999;
         }
 
-        .rsvp-banner-text p {
+        .presenca-counter {
+            text-align: center;
+            margin-top: 30px;
             font-family: 'Montserrat', sans-serif;
             font-size: 13px;
             color: #999;
             font-weight: 300;
         }
 
-        .rsvp-form-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #d4af69, #c9a84c);
-            color: white;
-            padding: 15px 32px;
-            border-radius: 60px;
-            font-size: 14px;
+        .presenca-counter strong {
+            color: #b8943f;
             font-weight: 600;
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            box-shadow: 0 6px 20px rgba(212,175,105,0.25);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            white-space: nowrap;
-        }
-
-        .rsvp-form-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(212,175,105,0.35);
         }
 
         /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
@@ -1039,7 +1176,7 @@
     <nav class="nav" id="navbar">
         <a href="#inicio" aria-label="Ir para Início">Início</a>
         <a href="#jornada" aria-label="Ir para Jornada">Jornada</a>
-        <a href="#evento" aria-label="Ir para Evento">Evento</a>
+        <a href="#evento" aria-label="Ir para Eventos">Eventos</a>
         <a href="#recados" aria-label="Ir para Recados">Recados</a>
         <a href="#presenca" aria-label="Ir para Presença">Presença</a>
         <a href="#ingresso" aria-label="Ir para Ingresso">Ingresso</a>
@@ -1085,7 +1222,7 @@
             </div>
         </div>
 
-        <p class="hero-date">20 de Dezembro de 2026</p>
+        <p class="hero-date">16 de Janeiro de 2027</p>
 
         <div class="scroll-indicator">
             <div class="scroll-line"></div>
@@ -1123,8 +1260,8 @@
                 <div class="timeline-dot">3</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2023</span>
-                    <h3>Crescendo na Jornada</h3>
-                    <p>Aprofundando conhecimentos e práticas clínicas</p>
+                    <h3>Início do Ciclo Clínico</h3>
+                    <p>Primeiros contatos com pacientes e a prática médica</p>
                 </div>
             </div>
 
@@ -1132,8 +1269,8 @@
                 <div class="timeline-dot">4</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2024</span>
-                    <h3>Internato</h3>
-                    <p>Aprendendo na prática o cuidado com os pacientes</p>
+                    <h3>Aprofundando no Ciclo Clínico</h3>
+                    <p>Consolidando conhecimentos na prática hospitalar</p>
                 </div>
             </div>
 
@@ -1141,8 +1278,8 @@
                 <div class="timeline-dot">5</div>
                 <div class="timeline-card">
                     <span class="timeline-year">2025</span>
-                    <h3>Plantões e Dedicação</h3>
-                    <p>Noites em claro cuidando de quem mais precisa</p>
+                    <h3>Internato</h3>
+                    <p>A experiência mais intensa da formação: aprendendo a cuidar com responsabilidade e empatia</p>
                 </div>
             </div>
 
@@ -1151,7 +1288,7 @@
                 <div class="timeline-card">
                     <span class="timeline-year">2026</span>
                     <h3>Formatura!</h3>
-                    <p>O sonho se torna realidade</p>
+                    <p>O sonho se torna realidade — formatura e residência, com fé em Jesus Cristo</p>
                 </div>
             </div>
         </div>
@@ -1164,17 +1301,6 @@
         <p class="section-subtitle">Três dias de celebração para marcar essa conquista</p>
 
         <div class="event-cards">
-            <!-- Colação de Grau -->
-            <div class="event-card">
-                <div class="event-card-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
-                    </svg>
-                </div>
-                <h3>Colação de Grau</h3>
-                <p>18 de Dezembro de 2026<br>às 18h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
-            </div>
-
             <!-- Culto Ecumênico -->
             <div class="event-card">
                 <div class="event-card-icon">
@@ -1183,7 +1309,18 @@
                     </svg>
                 </div>
                 <h3>Culto Ecumênico</h3>
-                <p>19 de Dezembro de 2026<br>às 10h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
+                <p>14 de Janeiro de 2027<br>às 10h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
+            </div>
+
+            <!-- Colação de Grau -->
+            <div class="event-card">
+                <div class="event-card-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
+                    </svg>
+                </div>
+                <h3>Colação de Grau</h3>
+                <p>15 de Janeiro de 2027<br>às 18h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
             </div>
 
             <!-- Baile de Formatura -->
@@ -1194,7 +1331,7 @@
                     </svg>
                 </div>
                 <h3>Baile de Formatura</h3>
-                <p>20 de Dezembro de 2026<br>às 21h00<br><a href="#ingresso">Adquira seu ingresso</a></p>
+                <p>16 de Janeiro de 2027<br>às 21h00<br><a href="#ingresso">Adquira seu ingresso</a></p>
             </div>
         </div>
     </section>
@@ -1245,19 +1382,47 @@
         </div>
     </section>
 
-    <!-- RSVP compacto -->
-    <section class="rsvp-banner" id="presenca">
-        <div class="rsvp-banner-inner">
-            <div class="rsvp-banner-text">
-                <h3>Confirme sua <em>Presença</em></h3>
-                <p>Preencha o formulário para confirmar</p>
+    <!-- Confirmar Presença por Família -->
+    <section class="presenca-section" id="presenca">
+        <p class="section-label">Presença</p>
+        <h2 class="section-title">Confirme sua <em>Presença</em></h2>
+        <p class="section-subtitle">Informe os membros da sua família que irão participar</p>
+
+        <div class="presenca-container">
+            <div class="presenca-form" id="presencaForm">
+                <div id="presencaFields">
+                    <div style="margin-bottom: 20px;">
+                        <label>Nome da Família</label>
+                        <input type="text" id="familyName" placeholder="Ex: Família Silva" maxlength="50">
+                    </div>
+
+                    <label>Adicionar Pessoas</label>
+                    <div class="presenca-add-row">
+                        <input type="text" id="memberName" placeholder="Primeiro nome" maxlength="30">
+                        <button class="presenca-add-btn" id="addMemberBtn" type="button">+ Adicionar</button>
+                    </div>
+
+                    <ul class="presenca-members" id="membersList"></ul>
+
+                    <div class="presenca-error" id="presencaError">Preencha o nome da família e adicione pelo menos uma pessoa.</div>
+                    <button class="presenca-submit" id="confirmPresencaBtn" type="button">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline;vertical-align:middle;margin-right:8px;">
+                            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Confirmar Presença
+                    </button>
+                </div>
+
+                <div class="presenca-success" id="presencaSuccess">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b8943f" stroke-width="1.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <p>Presença confirmada!</p>
+                    <p class="presenca-success-detail" id="presencaSuccessDetail"></p>
+                </div>
             </div>
-            <a href="https://forms.gle/SUBSTITUA_PELO_SEU_LINK" target="_blank" class="rsvp-form-button">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-                </svg>
-                Confirmar Presença
-            </a>
+
+            <div class="presenca-counter" id="presencaCounter"></div>
         </div>
     </section>
 
@@ -1266,16 +1431,16 @@
         <div class="ticket-content">
             <div class="ticket-visual">
                 <p class="ticket-header">Baile de Formatura</p>
-                <p class="ticket-event">Formatura de Medicina &bull; 2026</p>
+                <p class="ticket-event">Formatura de Medicina &bull; 2027</p>
                 <div class="ticket-dashed"></div>
                 <div class="ticket-details">
                     <div class="ticket-detail-item">
                         <p class="ticket-detail-label">Data</p>
-                        <p class="ticket-detail-value">20/12/2026</p>
+                        <p class="ticket-detail-value">16/01/2027</p>
                     </div>
                     <div class="ticket-detail-item">
                         <p class="ticket-detail-label">Horário</p>
-                        <p class="ticket-detail-value">19h00</p>
+                        <p class="ticket-detail-value">21h00</p>
                     </div>
                     <div class="ticket-detail-item">
                         <p class="ticket-detail-label">Assento</p>
@@ -1286,14 +1451,14 @@
 
             <h2>Adquira seu <em>Ingresso</em></h2>
             <p class="ticket-desc">Garanta seu ingresso para o Baile de Formatura e celebre essa noite especial conosco!</p>
-            <a href="https://exemplo.com/ingresso" target="_blank" class="ticket-button">
+            <a href="https://www.eformei.com.br/loja/vitrine.php?cliente=88603" target="_blank" class="ticket-button">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
                     <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
                 </svg>
                 Garantir Meu Ingresso
             </a>
-            <p class="ticket-note">Pagamento via PIX ou transferência</p>
+            <p class="ticket-note">Pagamento via PIX ou cartão</p>
         </div>
     </section>
 
@@ -1471,10 +1636,143 @@
             // Carrega mensagens locais ao iniciar
             if (!useFirebase) loadMessages();
 
+            // ===== Presença por Família =====
+            var members = [];
+            var familyNameInput = document.getElementById('familyName');
+            var memberNameInput = document.getElementById('memberName');
+            var membersList = document.getElementById('membersList');
+            var addMemberBtn = document.getElementById('addMemberBtn');
+            var confirmPresencaBtn = document.getElementById('confirmPresencaBtn');
+            var presencaError = document.getElementById('presencaError');
+            var presencaCounter = document.getElementById('presencaCounter');
+
+            function renderMembers() {
+                membersList.innerHTML = members.map(function(name, i) {
+                    return '<li>' +
+                        '<span class="member-name"><span class="member-num">' + (i + 1) + '</span>' + escapeHtml(name) + '</span>' +
+                        '<button class="presenca-remove-btn" data-index="' + i + '" type="button" aria-label="Remover ' + escapeHtml(name) + '">&times;</button>' +
+                    '</li>';
+                }).join('');
+            }
+
+            function addMember() {
+                var name = memberNameInput.value.trim();
+                if (!name) return;
+                members.push(name);
+                memberNameInput.value = '';
+                memberNameInput.focus();
+                renderMembers();
+                presencaError.style.display = 'none';
+            }
+
+            addMemberBtn.addEventListener('click', addMember);
+            memberNameInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault(); addMember(); }
+            });
+
+            membersList.addEventListener('click', function(e) {
+                var btn = e.target.closest('.presenca-remove-btn');
+                if (btn) {
+                    members.splice(parseInt(btn.dataset.index), 1);
+                    renderMembers();
+                }
+            });
+
+            // Salvar presença
+            function getLocalPresencas() {
+                try {
+                    return JSON.parse(localStorage.getItem('rafaella_presencas') || '[]');
+                } catch(e) { return []; }
+            }
+
+            function updatePresencaCounter() {
+                var presencas = [];
+                if (useFirebase && db) {
+                    db.ref('presencas').once('value', function(snapshot) {
+                        snapshot.forEach(function(child) {
+                            presencas.push(child.val());
+                        });
+                        showCounter(presencas);
+                    });
+                } else {
+                    presencas = getLocalPresencas();
+                    showCounter(presencas);
+                }
+            }
+
+            function showCounter(presencas) {
+                if (presencas.length === 0) {
+                    presencaCounter.innerHTML = '';
+                    return;
+                }
+                var totalPessoas = presencas.reduce(function(sum, p) { return sum + p.members.length; }, 0);
+                presencaCounter.innerHTML = '<strong>' + presencas.length + '</strong> família' + (presencas.length > 1 ? 's' : '') +
+                    ' confirmada' + (presencas.length > 1 ? 's' : '') +
+                    ' &bull; <strong>' + totalPessoas + '</strong> pessoa' + (totalPessoas > 1 ? 's' : '');
+            }
+
+            confirmPresencaBtn.addEventListener('click', function() {
+                var family = familyNameInput.value.trim();
+                presencaError.style.display = 'none';
+
+                if (!family || members.length === 0) {
+                    presencaError.style.display = 'block';
+                    return;
+                }
+
+                confirmPresencaBtn.disabled = true;
+
+                var presenca = {
+                    family: family,
+                    members: members.slice(),
+                    timestamp: Date.now()
+                };
+
+                if (useFirebase && db) {
+                    db.ref('presencas').push(presenca).then(function() {
+                        showPresencaSuccess(presenca);
+                    }).catch(function() {
+                        saveLocalPresenca(presenca);
+                        showPresencaSuccess(presenca);
+                    });
+                } else {
+                    saveLocalPresenca(presenca);
+                    showPresencaSuccess(presenca);
+                }
+            });
+
+            function saveLocalPresenca(p) {
+                var list = getLocalPresencas();
+                list.push(p);
+                localStorage.setItem('rafaella_presencas', JSON.stringify(list));
+            }
+
+            function showPresencaSuccess(p) {
+                document.getElementById('presencaFields').style.display = 'none';
+                var successEl = document.getElementById('presencaSuccess');
+                successEl.style.display = 'block';
+                document.getElementById('presencaSuccessDetail').textContent =
+                    p.family + ' — ' + p.members.length + ' pessoa' + (p.members.length > 1 ? 's' : '');
+
+                updatePresencaCounter();
+
+                setTimeout(function() {
+                    document.getElementById('presencaFields').style.display = 'block';
+                    successEl.style.display = 'none';
+                    familyNameInput.value = '';
+                    memberNameInput.value = '';
+                    members = [];
+                    membersList.innerHTML = '';
+                    confirmPresencaBtn.disabled = false;
+                }, 4000);
+            }
+
+            updatePresencaCounter();
+
             // ===== Countdown (com timezone Brasília e tratamento pós-evento) =====
             var countdownInterval;
             function updateCountdown() {
-                var target = new Date('2026-12-20T19:00:00-03:00').getTime();
+                var target = new Date('2027-01-16T21:00:00-03:00').getTime();
                 var now = Date.now();
                 var diff = target - now;
 
