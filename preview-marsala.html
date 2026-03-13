@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatura Dra. Rafaella Chaveiro | Medicina 2026</title>
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Formatura Dra. Rafaella Chaveiro">
+    <meta property="og:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Janeiro de 2027.">
+    <meta property="og:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
+    <meta property="og:url" content="https://rafaellachaveiro.com.br">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Formatura Dra. Rafaella Chaveiro">
+    <meta name="twitter:description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro!">
+    <meta name="twitter:image" content="https://rafaellachaveiro.com.br/rafaella-foto.png">
+    <meta name="description" content="Celebre conosco a formatura em Medicina da Dra. Rafaella Chaveiro! Janeiro de 2027.">
+    <link rel="icon" type="image/png" href="rafaella-foto.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Firebase para o mural de recados -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <style>
+        :root {
+            --gold: #912B48;
+            --gold-dark: #610027;
+            --gold-darker: #610027;
+            --dark-bg: #610027;
+            --dark-secondary: #7a1f3a;
+            --dark-tertiary: #912B48;
+            --dark-quaternary: #B45A69;
+            --light-bg: #fff5f7;
+            --light-section: #fce8ed;
+            --text-primary: #2c2c2c;
+            --text-secondary: #777;
+            --text-muted: #999;
+            --text-light: #bbb;
+            --gold-alpha-15: rgba(145,43,72,0.15);
+            --gold-alpha-10: rgba(145,43,72,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        /* Focus visible for keyboard navigation */
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: #fff5f7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #2c2c2c;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255,245,247,0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 40px;
+            box-shadow: 0 1px 30px rgba(0,0,0,0.06);
+        }
+
+        .nav a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        .nav.scrolled a { color: #610027; }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s;
+        }
+
+        .nav a:hover::after { width: 100%; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            position: relative;
+            background: linear-gradient(160deg, #610027 0%, #7a1f3a 30%, #912B48 60%, #B45A69 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(145,43,72,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to top, #fff5f7, transparent);
+            pointer-events: none;
+        }
+
+        .hero-ornament {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: rgba(145,43,72,0.4);
+            letter-spacing: 15px;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease 0.2s both;
+        }
+
+        .profile-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, rgba(145,43,72,0.5), rgba(145,43,72,0.15));
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease 0.3s both;
+            position: relative;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            border: 1px solid rgba(145,43,72,0.2);
+            border-radius: 50%;
+            animation: spinSlow 20s linear infinite;
+        }
+
+        .profile-container::after {
+            content: '';
+            position: absolute;
+            inset: -30px;
+            border: 1px dashed rgba(145,43,72,0.1);
+            border-radius: 50%;
+            animation: spinSlow 30s linear infinite reverse;
+        }
+
+        .profile-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: rgba(145,43,72,0.7);
+            margin-bottom: 15px;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 9vw, 80px);
+            font-weight: 300;
+            color: white;
+            text-align: center;
+            line-height: 1.05;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            font-weight: 400;
+            background: linear-gradient(90deg, #912B48, #FCD0D9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: rgba(145,43,72,0.4);
+            margin: 25px 0;
+            animation: fadeIn 1s ease 0.8s both;
+        }
+
+        /* Countdown */
+        .countdown-container {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 20px;
+            padding: 35px 50px;
+            border: 1px solid rgba(145,43,72,0.15);
+            margin-bottom: 25px;
+            animation: fadeInUp 0.8s ease 0.9s both;
+        }
+
+        .countdown-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(145,43,72,0.5);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 35px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item { text-align: center; min-width: 65px; }
+
+        .countdown-value {
+            font-size: clamp(36px, 6vw, 54px);
+            font-weight: 300;
+            line-height: 1;
+            color: white;
+        }
+
+        .countdown-value.tick { animation: countPulse 0.3s ease; }
+
+        .countdown-sep {
+            font-size: 36px;
+            color: rgba(145,43,72,0.25);
+            align-self: center;
+            font-weight: 200;
+        }
+
+        .countdown-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-top: 8px;
+        }
+
+        .hero-date {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.5);
+            animation: fadeInUp 0.8s ease 1s both;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(145,43,72,0.4), transparent);
+            animation: scrollPulse 2s infinite;
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        .section-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #610027;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 300;
+            text-align: center;
+            color: #2c2c2c;
+            margin-bottom: 15px;
+        }
+
+        .section-title em {
+            font-style: italic;
+            font-weight: 400;
+            color: #912B48;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            margin-bottom: 60px;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            padding: 120px 20px;
+            position: relative;
+        }
+
+        .timeline {
+            max-width: 750px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, #912B48 10%, #610027 50%, #912B48 90%, transparent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            padding-bottom: 50px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-item:nth-child(odd) { justify-content: flex-start; }
+        .timeline-item:nth-child(even) { justify-content: flex-end; }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 44px;
+            background: white;
+            border: 2px solid #912B48;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #912B48;
+            font-family: 'Montserrat', sans-serif;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+
+        .timeline-dot:hover {
+            transform: translateX(-50%) scale(1.15);
+            background: #912B48;
+            color: white;
+            box-shadow: 0 5px 20px rgba(145,43,72,0.3);
+        }
+
+        .timeline-card {
+            width: calc(50% - 45px);
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(145,43,72,0.12);
+            transition: all 0.3s;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(145,43,72,0.12);
+        }
+
+        .timeline-year {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: #610027;
+            letter-spacing: 3px;
+        }
+
+        .timeline-card h3 {
+            font-size: 22px;
+            color: #2c2c2c;
+            margin: 8px 0;
+            font-weight: 500;
+        }
+
+        .timeline-card p {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.7;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
+
+        /* ===== EVENT DETAILS ===== */
+        .event-section {
+            padding: 120px 20px;
+            background: linear-gradient(180deg, #fff5f7, #fce8ed, #fff5f7);
+        }
+
+        .event-cards {
+            max-width: 850px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(145,43,72,0.1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(145,43,72,0.15);
+        }
+
+        .event-card-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #fce8ed, #f5cdd5);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event-card h3 {
+            font-size: 22px;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .event-card p {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.8;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
+
+        .event-card a {
+            color: #912B48;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .event-card a:hover { border-bottom-color: #912B48; }
+
+        /* ===== PRESENÇA (formulário por família) ===== */
+        .presenca-section {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #fff5f7, #fce8ed);
+        }
+
+        .presenca-container {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .presenca-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+            border: 1px solid rgba(145,43,72,0.15);
+        }
+
+        .presenca-form label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .presenca-form input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #f0d0d8;
+            border-radius: 12px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: #2c2c2c;
+            background: #fff5f7;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .presenca-form input[type="text"]:focus {
+            outline: none;
+            border-color: #912B48;
+        }
+
+        .presenca-add-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .presenca-add-row input {
+            flex: 1;
+        }
+
+        .presenca-add-btn {
+            background: linear-gradient(135deg, #912B48, #610027);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .presenca-add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(145,43,72,0.3);
+        }
+
+        .presenca-members {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 25px;
+        }
+
+        .presenca-members li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: #fff5f7;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            color: #2c2c2c;
+        }
+
+        .presenca-members li .member-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .presenca-members li .member-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(145,43,72,0.15);
+            color: #912B48;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .presenca-remove-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 5px;
+            transition: color 0.3s;
+        }
+
+        .presenca-remove-btn:hover {
+            color: #e74c3c;
+        }
+
+        .presenca-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #912B48, #610027);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(145,43,72,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .presenca-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(145,43,72,0.35);
+        }
+
+        .presenca-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .presenca-error {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .presenca-success {
+            text-align: center;
+            display: none;
+        }
+
+        .presenca-success svg {
+            margin-bottom: 10px;
+        }
+
+        .presenca-success p {
+            font-size: 18px;
+            color: #2c2c2c;
+            margin-bottom: 5px;
+        }
+
+        .presenca-success .presenca-success-detail {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .presenca-counter {
+            text-align: center;
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #999;
+            font-weight: 300;
+        }
+
+        .presenca-counter strong {
+            color: #912B48;
+            font-weight: 600;
+        }
+
+        /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
+        .ticket-section {
+            padding: 120px 20px;
+            background: linear-gradient(135deg, #610027 0%, #7a1f3a 40%, #912B48 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-section::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 60%;
+            height: 160%;
+            background: radial-gradient(ellipse, rgba(145,43,72,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ticket-content {
+            max-width: 480px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .ticket-visual {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(145,43,72,0.2);
+            border-radius: 24px;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-visual::before,
+        .ticket-visual::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #610027, #7a1f3a);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ticket-visual::before { left: -15px; }
+        .ticket-visual::after { right: -15px; }
+
+        .ticket-dashed {
+            border-top: 1px dashed rgba(145,43,72,0.2);
+            margin: 25px 30px;
+        }
+
+        .ticket-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(145,43,72,0.5);
+            margin-bottom: 12px;
+        }
+
+        .ticket-name {
+            font-size: 28px;
+            color: white;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .ticket-event {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+        }
+
+        .ticket-details {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .ticket-detail-item {
+            text-align: center;
+        }
+
+        .ticket-detail-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(145,43,72,0.4);
+            margin-bottom: 5px;
+        }
+
+        .ticket-detail-value {
+            font-size: 16px;
+            color: white;
+            font-weight: 400;
+        }
+
+        .ticket-section h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .ticket-section h2 em {
+            font-style: italic;
+            font-weight: 400;
+            background: linear-gradient(90deg, #912B48, #FCD0D9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ticket-section p.ticket-desc {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.9;
+            margin-bottom: 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+        }
+
+        .ticket-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #912B48, #610027);
+            color: #610027;
+            padding: 18px 44px;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 8px 30px rgba(145,43,72,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ticket-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(145,43,72,0.4);
+        }
+
+        .ticket-note {
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            margin-top: 25px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* ===== MURAL DE RECADOS ===== */
+        .messages-section {
+            padding: 120px 20px;
+            background: linear-gradient(180deg, #fff5f7, #fce8ed, #fff5f7);
+        }
+
+        .messages-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .message-form {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.04);
+            border: 1px solid rgba(145,43,72,0.1);
+            margin-bottom: 50px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #f0d0d8;
+            border-radius: 12px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: #2c2c2c;
+            background: #fff5f7;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #912B48;
+            box-shadow: 0 0 0 3px rgba(145,43,72,0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #bbb;
+        }
+
+        .submit-message {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #912B48, #610027);
+            color: white;
+            padding: 14px 36px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(145,43,72,0.25);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .submit-message:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(145,43,72,0.35);
+        }
+
+        .submit-message:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .messages-wall {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid rgba(145,43,72,0.08);
+            animation: fadeInUp 0.5s ease both;
+            position: relative;
+        }
+
+        .message-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 50px;
+            color: rgba(145,43,72,0.12);
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1;
+        }
+
+        .message-author {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #912B48;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .message-text {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.7;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .message-date {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            color: #bbb;
+            margin-top: 15px;
+        }
+
+        .messages-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #bbb;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .messages-empty svg {
+            display: block;
+            margin: 0 auto 15px;
+            opacity: 0.3;
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: #912B48;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .form-success svg {
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 60px 20px;
+            background: #4a0020;
+            text-align: center;
+        }
+
+        .footer-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(145,43,72,0.2);
+            margin: 0 auto 25px;
+        }
+
+        .footer-quote {
+            color: rgba(255,255,255,0.45);
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+
+        .footer-signature {
+            font-family: 'Montserrat', sans-serif;
+            color: rgba(255,255,255,0.25);
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== FORM VALIDATION ===== */
+        .form-error {
+            display: none;
+            color: #c0392b;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            padding: 10px 16px;
+            background: rgba(192,57,43,0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(192,57,43,0.15);
+        }
+
+        .form-error.visible {
+            display: block;
+        }
+
+        .form-group input.input-error,
+        .form-group textarea.input-error {
+            border-color: #c0392b;
+            box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+        }
+
+        /* ===== COUNTDOWN FINISHED ===== */
+        .countdown-finished {
+            font-size: clamp(20px, 4vw, 32px);
+            color: white;
+            font-style: italic;
+            font-weight: 300;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes countPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.4; height: 40px; }
+            50% { opacity: 0.8; height: 50px; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav { gap: 12px; padding: 15px 15px; }
+            .nav a { font-size: 9px; letter-spacing: 2px; }
+
+            .timeline-line { left: 20px; }
+            .timeline-item { justify-content: flex-end !important; }
+            .timeline-dot { left: 20px; width: 36px; height: 36px; font-size: 12px; }
+            .timeline-card { width: calc(100% - 55px); }
+
+            .countdown-container { padding: 25px 20px; }
+            .countdown { gap: 20px; }
+            .countdown-sep { display: none; }
+
+            .form-row { flex-direction: column; gap: 0; }
+
+            .ticket-visual { padding: 35px 25px; }
+            .ticket-details { gap: 25px; }
+            .ticket-name { font-size: 22px; }
+
+            .messages-wall {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <a href="#inicio" aria-label="Ir para Início">Início</a>
+        <a href="#jornada" aria-label="Ir para Jornada">Jornada</a>
+        <a href="#evento" aria-label="Ir para Eventos">Eventos</a>
+        <a href="#recados" aria-label="Ir para Recados">Recados</a>
+        <a href="#presenca" aria-label="Ir para Presença">Presença</a>
+        <a href="#ingresso" aria-label="Ir para Ingresso">Ingresso</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="inicio">
+        <div class="hero-ornament">&#10047; &#10047; &#10047;</div>
+
+        <div class="profile-container">
+            <div class="profile-inner">
+                <img src="rafaella-foto.png" alt="Dra. Rafaella Chaveiro" width="180" height="180">
+            </div>
+        </div>
+
+        <p class="hero-label">Formatura de Medicina</p>
+        <h1>Dra. <em>Rafaella Chaveiro</em></h1>
+
+        <div class="hero-divider"></div>
+
+        <div class="countdown-container">
+            <p class="countdown-title">Contagem Regressiva</p>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Dias</div>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Min</div>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Seg</div>
+                </div>
+            </div>
+        </div>
+
+        <p class="hero-date">16 de Janeiro de 2027</p>
+
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section" id="jornada">
+        <p class="section-label">Trajetória</p>
+        <h2 class="section-title">Uma Jornada de <em>Dedicação</em></h2>
+        <p class="section-subtitle">6 anos de estudo, amor e dedicação</p>
+
+        <div class="timeline">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot">1</div>
+                <div class="timeline-card">
+                    <span class="timeline-year">2021</span>
+                    <h3>O Início do Sonho</h3>
+                    <p>Aprovação no vestibular de Medicina</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot">2</div>
+                <div class="timeline-card">
+                    <span class="timeline-year">2022</span>
+                    <h3>Primeiros Passos</h3>
+                    <p>Anatomia, fisiologia e muitas noites de estudo</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot">3</div>
+                <div class="timeline-card">
+                    <span class="timeline-year">2023</span>
+                    <h3>Início do Ciclo Clínico</h3>
+                    <p>Primeiros contatos com pacientes e a prática médica</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot">4</div>
+                <div class="timeline-card">
+                    <span class="timeline-year">2024</span>
+                    <h3>Aprofundando no Ciclo Clínico</h3>
+                    <p>Consolidando conhecimentos na prática hospitalar</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot">5</div>
+                <div class="timeline-card">
+                    <span class="timeline-year">2025</span>
+                    <h3>Internato</h3>
+                    <p>A experiência mais intensa da formação: aprendendo a cuidar com responsabilidade e empatia</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot">6</div>
+                <div class="timeline-card">
+                    <span class="timeline-year">2026</span>
+                    <h3>Formatura!</h3>
+                    <p>O sonho se torna realidade — formatura e residência, com fé em Jesus Cristo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details -->
+    <section class="event-section" id="evento">
+        <p class="section-label">Programação</p>
+        <h2 class="section-title">Eventos da <em>Formatura</em></h2>
+        <p class="section-subtitle">Três dias de celebração para marcar essa conquista</p>
+
+        <div class="event-cards">
+            <!-- Culto Ecumênico -->
+            <div class="event-card">
+                <div class="event-card-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h3>Culto Ecumênico</h3>
+                <p>14 de Janeiro de 2027<br>às 10h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
+            </div>
+
+            <!-- Colação de Grau -->
+            <div class="event-card">
+                <div class="event-card-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
+                    </svg>
+                </div>
+                <h3>Colação de Grau</h3>
+                <p>15 de Janeiro de 2027<br>às 18h00<br><span style="color:#bbb; font-size:12px;">Local a confirmar</span></p>
+            </div>
+
+            <!-- Baile de Formatura -->
+            <div class="event-card" style="border-color: rgba(145,43,72,0.3);">
+                <div class="event-card-icon" style="background: linear-gradient(135deg, #912B48, #610027);">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                </div>
+                <h3>Baile de Formatura</h3>
+                <p>16 de Janeiro de 2027<br>às 21h00<br><a href="#ingresso">Adquira seu ingresso</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mural de Recados (acima do ingresso) -->
+    <section class="messages-section" id="recados">
+        <p class="section-label">Mural</p>
+        <h2 class="section-title">Deixe seu <em>Recado</em></h2>
+        <p class="section-subtitle">Escreva uma mensagem carinhosa para a Dra. Rafaella</p>
+
+        <div class="messages-container">
+            <div class="message-form" id="messageForm">
+                <div id="formFields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Seu Nome</label>
+                            <input type="text" id="msgName" placeholder="Como você se chama?" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label>Sua Mensagem</label>
+                        <textarea id="msgText" placeholder="Escreva seu recado para a Dra. Rafaella..." maxlength="500"></textarea>
+                    </div>
+                    <div class="form-error" id="formError">Por favor, preencha seu nome e mensagem.</div>
+                    <button class="submit-message" id="sendBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                        Enviar Recado
+                    </button>
+                </div>
+                <div class="form-success" id="formSuccess">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <p>Recado enviado com carinho!</p>
+                </div>
+            </div>
+
+            <div id="messagesWall" class="messages-wall" aria-live="polite">
+                <div class="messages-empty" id="emptyState">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    Seja o primeiro a deixar um recado!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Confirmar Presença por Família -->
+    <section class="presenca-section" id="presenca">
+        <p class="section-label">Presença</p>
+        <h2 class="section-title">Confirme sua <em>Presença</em></h2>
+        <p class="section-subtitle">Informe os membros da sua família que irão participar</p>
+
+        <div class="presenca-container">
+            <div class="presenca-form" id="presencaForm">
+                <div id="presencaFields">
+                    <div style="margin-bottom: 20px;">
+                        <label>Nome da Família</label>
+                        <input type="text" id="familyName" placeholder="Ex: Família Silva" maxlength="50">
+                    </div>
+
+                    <label>Adicionar Pessoas</label>
+                    <div class="presenca-add-row">
+                        <input type="text" id="memberName" placeholder="Primeiro nome" maxlength="30">
+                        <button class="presenca-add-btn" id="addMemberBtn" type="button">+ Adicionar</button>
+                    </div>
+
+                    <ul class="presenca-members" id="membersList"></ul>
+
+                    <div class="presenca-error" id="presencaError">Preencha o nome da família e adicione pelo menos uma pessoa.</div>
+                    <button class="presenca-submit" id="confirmPresencaBtn" type="button">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline;vertical-align:middle;margin-right:8px;">
+                            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Confirmar Presença
+                    </button>
+                </div>
+
+                <div class="presenca-success" id="presencaSuccess">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#912B48" stroke-width="1.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <p>Presença confirmada!</p>
+                    <p class="presenca-success-detail" id="presencaSuccessDetail"></p>
+                </div>
+            </div>
+
+            <div class="presenca-counter" id="presencaCounter"></div>
+        </div>
+    </section>
+
+    <!-- Ingresso Simbólico -->
+    <section class="ticket-section" id="ingresso">
+        <div class="ticket-content">
+            <div class="ticket-visual">
+                <p class="ticket-header">Baile de Formatura</p>
+                <p class="ticket-event">Formatura de Medicina &bull; 2027</p>
+                <div class="ticket-dashed"></div>
+                <div class="ticket-details">
+                    <div class="ticket-detail-item">
+                        <p class="ticket-detail-label">Data</p>
+                        <p class="ticket-detail-value">16/01/2027</p>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <p class="ticket-detail-label">Horário</p>
+                        <p class="ticket-detail-value">21h00</p>
+                    </div>
+                    <div class="ticket-detail-item">
+                        <p class="ticket-detail-label">Assento</p>
+                        <p class="ticket-detail-value">VIP</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2>Adquira seu <em>Ingresso</em></h2>
+            <p class="ticket-desc">Garanta seu ingresso para o Baile de Formatura e celebre essa noite especial conosco!</p>
+            <a href="https://www.eformei.com.br/loja/vitrine.php?cliente=88603" target="_blank" class="ticket-button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                    <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
+                </svg>
+                Garantir Meu Ingresso
+            </a>
+            <p class="ticket-note">Pagamento via PIX ou cartão</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-divider"></div>
+        <p class="footer-quote">"Curar as vezes, aliviar frequentemente, consolar sempre"</p>
+        <p class="footer-signature">Com amor, Dra. Rafaella Chaveiro</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ===== Firebase Config =====
+            // IMPORTANTE: Substitua com suas credenciais do Firebase
+            const firebaseConfig = {
+                apiKey: "SUA_API_KEY",
+                authDomain: "SEU_PROJETO.firebaseapp.com",
+                databaseURL: "https://SEU_PROJETO-default-rtdb.firebaseio.com",
+                projectId: "SEU_PROJETO",
+                storageBucket: "SEU_PROJETO.appspot.com",
+                messagingSenderId: "SEU_SENDER_ID",
+                appId: "SEU_APP_ID"
+            };
+
+            let db = null;
+            let useFirebase = false;
+
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.database();
+                // Testa se a conexão funciona
+                db.ref('.info/connected').on('value', function(snap) {
+                    if (snap.val() === true) {
+                        useFirebase = true;
+                        loadMessages();
+                    }
+                });
+            } catch(e) {
+                console.log('Firebase não configurado. Usando localStorage.');
+            }
+
+            // Fallback: localStorage
+            function getLocalMessages() {
+                try {
+                    return JSON.parse(localStorage.getItem('rafaella_messages') || '[]');
+                } catch(e) { return []; }
+            }
+
+            function saveLocalMessage(msg) {
+                const msgs = getLocalMessages();
+                msgs.unshift(msg);
+                localStorage.setItem('rafaella_messages', JSON.stringify(msgs));
+            }
+
+            function loadMessages() {
+                if (useFirebase && db) {
+                    db.ref('messages').orderByChild('timestamp').limitToLast(50).on('value', function(snapshot) {
+                        const messages = [];
+                        snapshot.forEach(function(child) {
+                            messages.push(child.val());
+                        });
+                        messages.reverse();
+                        renderMessages(messages);
+                    });
+                } else {
+                    renderMessages(getLocalMessages());
+                }
+            }
+
+            function renderMessages(messages) {
+                const wall = document.getElementById('messagesWall');
+                const empty = document.getElementById('emptyState');
+
+                if (messages.length === 0) {
+                    empty.style.display = 'block';
+                    wall.innerHTML = '';
+                    wall.appendChild(empty);
+                    return;
+                }
+
+                empty.style.display = 'none';
+                wall.innerHTML = messages.map(function(m) {
+                    return '<div class="message-card">' +
+                        '<p class="message-author">' + escapeHtml(m.name) + '</p>' +
+                        '<p class="message-text">' + escapeHtml(m.text) + '</p>' +
+                        '<p class="message-date">' + formatDate(m.timestamp) + '</p>' +
+                    '</div>';
+                }).join('');
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function formatDate(ts) {
+                if (!ts) return '';
+                const d = new Date(ts);
+                const meses = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+                return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
+            }
+
+            // ===== Form: addEventListener + inline error =====
+            var sendBtn = document.getElementById('sendBtn');
+            var formError = document.getElementById('formError');
+            var nameInput = document.getElementById('msgName');
+            var textInput = document.getElementById('msgText');
+
+            // Clear error on input
+            nameInput.addEventListener('input', function() {
+                nameInput.classList.remove('input-error');
+                formError.classList.remove('visible');
+            });
+            textInput.addEventListener('input', function() {
+                textInput.classList.remove('input-error');
+                formError.classList.remove('visible');
+            });
+
+            sendBtn.addEventListener('click', function() {
+                var name = nameInput.value.trim();
+                var text = textInput.value.trim();
+
+                // Clear previous errors
+                nameInput.classList.remove('input-error');
+                textInput.classList.remove('input-error');
+                formError.classList.remove('visible');
+
+                if (!name || !text) {
+                    if (!name) nameInput.classList.add('input-error');
+                    if (!text) textInput.classList.add('input-error');
+                    formError.classList.add('visible');
+                    return;
+                }
+
+                sendBtn.disabled = true;
+
+                var message = {
+                    name: name,
+                    text: text,
+                    timestamp: Date.now()
+                };
+
+                if (useFirebase && db) {
+                    db.ref('messages').push(message).then(function() {
+                        showSuccess();
+                    }).catch(function() {
+                        saveLocalMessage(message);
+                        showSuccess();
+                        loadMessages();
+                    });
+                } else {
+                    saveLocalMessage(message);
+                    showSuccess();
+                    loadMessages();
+                }
+            });
+
+            function showSuccess() {
+                document.getElementById('formFields').style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+
+                setTimeout(function() {
+                    document.getElementById('formFields').style.display = 'block';
+                    document.getElementById('formSuccess').style.display = 'none';
+                    nameInput.value = '';
+                    textInput.value = '';
+                    nameInput.classList.remove('input-error');
+                    textInput.classList.remove('input-error');
+                    formError.classList.remove('visible');
+                    sendBtn.disabled = false;
+                }, 3000);
+            }
+
+            // Carrega mensagens locais ao iniciar
+            if (!useFirebase) loadMessages();
+
+            // ===== Presença por Família =====
+            var members = [];
+            var familyNameInput = document.getElementById('familyName');
+            var memberNameInput = document.getElementById('memberName');
+            var membersList = document.getElementById('membersList');
+            var addMemberBtn = document.getElementById('addMemberBtn');
+            var confirmPresencaBtn = document.getElementById('confirmPresencaBtn');
+            var presencaError = document.getElementById('presencaError');
+            var presencaCounter = document.getElementById('presencaCounter');
+
+            function renderMembers() {
+                membersList.innerHTML = members.map(function(name, i) {
+                    return '<li>' +
+                        '<span class="member-name"><span class="member-num">' + (i + 1) + '</span>' + escapeHtml(name) + '</span>' +
+                        '<button class="presenca-remove-btn" data-index="' + i + '" type="button" aria-label="Remover ' + escapeHtml(name) + '">&times;</button>' +
+                    '</li>';
+                }).join('');
+            }
+
+            function addMember() {
+                var name = memberNameInput.value.trim();
+                if (!name) return;
+                members.push(name);
+                memberNameInput.value = '';
+                memberNameInput.focus();
+                renderMembers();
+                presencaError.style.display = 'none';
+            }
+
+            addMemberBtn.addEventListener('click', addMember);
+            memberNameInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault(); addMember(); }
+            });
+
+            membersList.addEventListener('click', function(e) {
+                var btn = e.target.closest('.presenca-remove-btn');
+                if (btn) {
+                    members.splice(parseInt(btn.dataset.index), 1);
+                    renderMembers();
+                }
+            });
+
+            // Salvar presença
+            function getLocalPresencas() {
+                try {
+                    return JSON.parse(localStorage.getItem('rafaella_presencas') || '[]');
+                } catch(e) { return []; }
+            }
+
+            function updatePresencaCounter() {
+                var presencas = [];
+                if (useFirebase && db) {
+                    db.ref('presencas').once('value', function(snapshot) {
+                        snapshot.forEach(function(child) {
+                            presencas.push(child.val());
+                        });
+                        showCounter(presencas);
+                    });
+                } else {
+                    presencas = getLocalPresencas();
+                    showCounter(presencas);
+                }
+            }
+
+            function showCounter(presencas) {
+                if (presencas.length === 0) {
+                    presencaCounter.innerHTML = '';
+                    return;
+                }
+                var totalPessoas = presencas.reduce(function(sum, p) { return sum + p.members.length; }, 0);
+                presencaCounter.innerHTML = '<strong>' + presencas.length + '</strong> família' + (presencas.length > 1 ? 's' : '') +
+                    ' confirmada' + (presencas.length > 1 ? 's' : '') +
+                    ' &bull; <strong>' + totalPessoas + '</strong> pessoa' + (totalPessoas > 1 ? 's' : '');
+            }
+
+            confirmPresencaBtn.addEventListener('click', function() {
+                var family = familyNameInput.value.trim();
+                presencaError.style.display = 'none';
+
+                if (!family || members.length === 0) {
+                    presencaError.style.display = 'block';
+                    return;
+                }
+
+                confirmPresencaBtn.disabled = true;
+
+                var presenca = {
+                    family: family,
+                    members: members.slice(),
+                    timestamp: Date.now()
+                };
+
+                if (useFirebase && db) {
+                    db.ref('presencas').push(presenca).then(function() {
+                        showPresencaSuccess(presenca);
+                    }).catch(function() {
+                        saveLocalPresenca(presenca);
+                        showPresencaSuccess(presenca);
+                    });
+                } else {
+                    saveLocalPresenca(presenca);
+                    showPresencaSuccess(presenca);
+                }
+            });
+
+            function saveLocalPresenca(p) {
+                var list = getLocalPresencas();
+                list.push(p);
+                localStorage.setItem('rafaella_presencas', JSON.stringify(list));
+            }
+
+            function showPresencaSuccess(p) {
+                document.getElementById('presencaFields').style.display = 'none';
+                var successEl = document.getElementById('presencaSuccess');
+                successEl.style.display = 'block';
+                document.getElementById('presencaSuccessDetail').textContent =
+                    p.family + ' — ' + p.members.length + ' pessoa' + (p.members.length > 1 ? 's' : '');
+
+                updatePresencaCounter();
+
+                setTimeout(function() {
+                    document.getElementById('presencaFields').style.display = 'block';
+                    successEl.style.display = 'none';
+                    familyNameInput.value = '';
+                    memberNameInput.value = '';
+                    members = [];
+                    membersList.innerHTML = '';
+                    confirmPresencaBtn.disabled = false;
+                }, 4000);
+            }
+
+            updatePresencaCounter();
+
+            // ===== Countdown (com timezone Brasília e tratamento pós-evento) =====
+            var countdownInterval;
+            function updateCountdown() {
+                var target = new Date('2027-01-16T21:00:00-03:00').getTime();
+                var now = Date.now();
+                var diff = target - now;
+
+                if (diff <= 0) {
+                    // Evento chegou!
+                    var countdownEl = document.querySelector('.countdown');
+                    countdownEl.innerHTML = '<p class="countdown-finished">O grande dia chegou!</p>';
+                    clearInterval(countdownInterval);
+                    return;
+                }
+
+                updateUnit('days', Math.floor(diff / 86400000));
+                updateUnit('hours', Math.floor((diff / 3600000) % 24));
+                updateUnit('minutes', Math.floor((diff / 60000) % 60));
+                updateUnit('seconds', Math.floor((diff / 1000) % 60));
+            }
+
+            function updateUnit(id, val) {
+                var el = document.getElementById(id);
+                var v = String(val).padStart(2, '0');
+                if (el.textContent !== v) {
+                    el.classList.add('tick');
+                    el.textContent = v;
+                    setTimeout(function() { el.classList.remove('tick'); }, 300);
+                }
+            }
+
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+
+            // Navbar scroll
+            var nav = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                nav.classList.toggle('scrolled', window.scrollY > 80);
+            });
+
+            // Intersection Observer
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.timeline-item, .event-card, .message-card').forEach(function(el) {
+                obs.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
