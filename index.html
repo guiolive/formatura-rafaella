@@ -30,10 +30,10 @@
             --gold: #70020F;
             --gold-dark: #4a0008;
             --gold-darker: #4a0008;
-            --dark-bg: #4a0008;
-            --dark-secondary: #5a010c;
-            --dark-tertiary: #70020F;
-            --dark-quaternary: #9e3040;
+            --dark-bg: #FFDEE2;
+            --dark-secondary: #ffd0d6;
+            --dark-tertiary: #FFE8EB;
+            --dark-quaternary: #FFF0F2;
             --light-bg: #FFF5F6;
             --light-section: #FFDEE2;
             --text-primary: #2c2c2c;
@@ -90,7 +90,7 @@
             font-weight: 500;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.9);
+            color: #70020F;
             text-decoration: none;
             transition: all 0.3s;
             padding: 8px 0;
@@ -121,7 +121,7 @@
             justify-content: center;
             padding: 60px 20px;
             position: relative;
-            background: linear-gradient(160deg, #4a0008 0%, #5a010c 30%, #70020F 60%, #9e3040 100%);
+            background: linear-gradient(160deg, #FFDEE2 0%, #FFE8EB 30%, #FFF0F2 60%, #FFF5F6 100%);
         }
 
         .hero::before {
@@ -142,14 +142,14 @@
             left: 0;
             right: 0;
             height: 150px;
-            background: linear-gradient(to top, #FFF5F6, transparent);
+            background: linear-gradient(to top, #FFF5F6, rgba(255,222,226,0));
             pointer-events: none;
         }
 
         .hero-ornament {
             font-family: 'Cormorant Garamond', serif;
             font-size: 20px;
-            color: rgba(112,2,15,0.4);
+            color: rgba(112,2,15,0.6);
             letter-spacing: 15px;
             margin-bottom: 30px;
             animation: fadeIn 1s ease 0.2s both;
@@ -203,7 +203,7 @@
             font-weight: 500;
             letter-spacing: 8px;
             text-transform: uppercase;
-            color: rgba(112,2,15,0.7);
+            color: #70020F;
             margin-bottom: 15px;
             animation: fadeInUp 0.8s ease 0.5s both;
         }
@@ -211,7 +211,7 @@
         .hero h1 {
             font-size: clamp(42px, 9vw, 80px);
             font-weight: 300;
-            color: white;
+            color: #70020F;
             text-align: center;
             line-height: 1.05;
             margin-bottom: 10px;
@@ -221,10 +221,7 @@
         .hero h1 em {
             font-style: italic;
             font-weight: 400;
-            background: linear-gradient(90deg, #70020F, #FFDEE2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #4a0008;
         }
 
         .hero-divider {
@@ -237,7 +234,7 @@
 
         /* Countdown */
         .countdown-container {
-            background: rgba(255,255,255,0.06);
+            background: rgba(112,2,15,0.08);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-radius: 20px;
@@ -270,7 +267,7 @@
             font-size: clamp(36px, 6vw, 54px);
             font-weight: 300;
             line-height: 1;
-            color: white;
+            color: #70020F;
         }
 
         .countdown-value.tick { animation: countPulse 0.3s ease; }
@@ -287,7 +284,7 @@
             font-size: 9px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
+            color: rgba(112,2,15,0.5);
             margin-top: 8px;
         }
 
@@ -296,7 +293,7 @@
             font-size: 13px;
             font-weight: 300;
             letter-spacing: 3px;
-            color: rgba(255,255,255,0.5);
+            color: rgba(112,2,15,0.6);
             animation: fadeInUp 0.8s ease 1s both;
         }
 
@@ -721,7 +718,7 @@
         /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
         .ticket-section {
             padding: 120px 20px;
-            background: linear-gradient(135deg, #4a0008 0%, #5a010c 40%, #70020F 100%);
+            background: linear-gradient(135deg, #FFDEE2 0%, #FFE8EB 40%, #FFF0F2 100%);
             position: relative;
             overflow: hidden;
         }
@@ -745,8 +742,8 @@
         }
 
         .ticket-visual {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(112,2,15,0.2);
+            background: rgba(112,2,15,0.05);
+            border: 1px solid rgba(112,2,15,0.15);
             border-radius: 24px;
             padding: 50px 40px;
             margin-bottom: 40px;
@@ -760,7 +757,7 @@
             position: absolute;
             width: 30px;
             height: 30px;
-            background: linear-gradient(135deg, #4a0008, #5a010c);
+            background: linear-gradient(135deg, #FFDEE2, #ffd0d6);
             border-radius: 50%;
             top: 50%;
             transform: translateY(-50%);
@@ -785,7 +782,7 @@
 
         .ticket-name {
             font-size: 28px;
-            color: white;
+            color: #70020F;
             font-weight: 400;
             font-style: italic;
             margin-bottom: 5px;
@@ -794,7 +791,7 @@
         .ticket-event {
             font-family: 'Montserrat', sans-serif;
             font-size: 12px;
-            color: rgba(255,255,255,0.5);
+            color: rgba(112,2,15,0.5);
             letter-spacing: 2px;
         }
 
@@ -819,13 +816,13 @@
 
         .ticket-detail-value {
             font-size: 16px;
-            color: white;
+            color: #70020F;
             font-weight: 400;
         }
 
         .ticket-section h2 {
             font-size: clamp(32px, 5vw, 48px);
-            color: white;
+            color: #70020F;
             margin-bottom: 20px;
             font-weight: 300;
         }
@@ -833,15 +830,12 @@
         .ticket-section h2 em {
             font-style: italic;
             font-weight: 400;
-            background: linear-gradient(90deg, #70020F, #FFDEE2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #4a0008;
         }
 
         .ticket-section p.ticket-desc {
             font-size: 16px;
-            color: rgba(255,255,255,0.6);
+            color: rgba(112,2,15,0.6);
             line-height: 1.9;
             margin-bottom: 40px;
             font-family: 'Montserrat', sans-serif;
@@ -853,7 +847,7 @@
             align-items: center;
             gap: 12px;
             background: linear-gradient(135deg, #70020F, #4a0008);
-            color: #4a0008;
+            color: white;
             padding: 18px 44px;
             border-radius: 60px;
             font-size: 15px;
@@ -871,7 +865,7 @@
 
         .ticket-note {
             font-size: 12px;
-            color: rgba(255,255,255,0.35);
+            color: rgba(112,2,15,0.4);
             margin-top: 25px;
             font-family: 'Montserrat', sans-serif;
         }
@@ -1058,7 +1052,7 @@
         /* ===== FOOTER ===== */
         footer {
             padding: 60px 20px;
-            background: #3a0008;
+            background: #FFDEE2;
             text-align: center;
         }
 
@@ -1070,7 +1064,7 @@
         }
 
         .footer-quote {
-            color: rgba(255,255,255,0.45);
+            color: rgba(112,2,15,0.5);
             font-size: 15px;
             font-style: italic;
             margin-bottom: 12px;
@@ -1079,7 +1073,7 @@
 
         .footer-signature {
             font-family: 'Montserrat', sans-serif;
-            color: rgba(255,255,255,0.25);
+            color: rgba(112,2,15,0.35);
             font-size: 11px;
             letter-spacing: 2px;
         }
@@ -1111,7 +1105,7 @@
         /* ===== COUNTDOWN FINISHED ===== */
         .countdown-finished {
             font-size: clamp(20px, 4vw, 32px);
-            color: white;
+            color: #70020F;
             font-style: italic;
             font-weight: 300;
             text-align: center;
