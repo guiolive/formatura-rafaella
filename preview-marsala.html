@@ -1118,6 +1118,98 @@
             padding: 20px 0;
         }
 
+        /* ===== ADMIN PANEL ===== */
+        .admin-panel {
+            max-width: 700px;
+            margin: 40px auto 0;
+            padding: 30px;
+            background: #fff5f7;
+            border: 2px solid #912B48;
+            border-radius: 16px;
+        }
+
+        .admin-title {
+            font-size: 22px;
+            color: #912B48;
+            margin-bottom: 5px;
+        }
+
+        .admin-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .admin-card {
+            background: white;
+            border: 1px solid rgba(145,43,72,0.15);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .admin-card .message-author {
+            font-weight: 600;
+            color: #912B48;
+            margin-bottom: 4px;
+        }
+
+        .admin-card .message-text {
+            font-size: 15px;
+            color: #2c2c2c;
+            margin-bottom: 8px;
+        }
+
+        .admin-card .message-date {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .admin-btn {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-btn-approve {
+            background: #912B48;
+            color: white;
+        }
+
+        .admin-btn-approve:hover {
+            background: #610027;
+        }
+
+        .admin-btn-reject {
+            background: rgba(192,57,43,0.1);
+            color: #c0392b;
+        }
+
+        .admin-btn-reject:hover {
+            background: rgba(192,57,43,0.2);
+        }
+
+        .admin-empty {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #bbb;
+            text-align: center;
+            padding: 20px;
+        }
+
         /* ===== ANIMATIONS ===== */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -1368,7 +1460,18 @@
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                     </svg>
                     <p>Recado enviado com carinho!</p>
+                    <p style="font-family:'Montserrat',sans-serif;font-size:12px;color:#999;margin-top:8px;">Seu recado aparecerá após aprovação.</p>
                 </div>
+            </div>
+
+            <!-- Painel Admin (visível apenas com ?admin=SENHA na URL) -->
+            <div id="adminPanel" class="admin-panel" style="display:none;">
+                <h3 class="admin-title">Painel de Moderação</h3>
+                <p class="admin-subtitle">Recados pendentes de aprovação</p>
+                <div id="adminPending" class="admin-pending"></div>
+                <hr style="border:none;border-top:1px solid rgba(145,43,72,0.15);margin:20px 0;">
+                <p class="admin-subtitle">Recados aprovados</p>
+                <div id="adminApproved" class="admin-approved"></div>
             </div>
 
             <div id="messagesWall" class="messages-wall" aria-live="polite">
@@ -1485,19 +1588,26 @@
 
             let db = null;
             let useFirebase = false;
+            // Senha do painel admin — acesse o site com ?admin=rafa2027
+            var ADMIN_PASSWORD = 'rafa2027';
+            var isAdmin = new URLSearchParams(window.location.search).get('admin') === ADMIN_PASSWORD;
 
             try {
                 firebase.initializeApp(firebaseConfig);
                 db = firebase.database();
-                // Testa se a conexão funciona
                 db.ref('.info/connected').on('value', function(snap) {
                     if (snap.val() === true) {
                         useFirebase = true;
                         loadMessages();
+                        if (isAdmin) loadAdminPanel();
                     }
                 });
             } catch(e) {
                 console.log('Firebase não configurado. Usando localStorage.');
+            }
+
+            if (isAdmin) {
+                document.getElementById('adminPanel').style.display = 'block';
             }
 
             // Fallback: localStorage
@@ -1515,10 +1625,13 @@
 
             function loadMessages() {
                 if (useFirebase && db) {
-                    db.ref('messages').orderByChild('timestamp').limitToLast(50).on('value', function(snapshot) {
+                    db.ref('messages').orderByChild('timestamp').limitToLast(100).on('value', function(snapshot) {
                         const messages = [];
                         snapshot.forEach(function(child) {
-                            messages.push(child.val());
+                            var msg = child.val();
+                            if (msg.approved === true) {
+                                messages.push(msg);
+                            }
                         });
                         messages.reverse();
                         renderMessages(messages);
@@ -1599,7 +1712,8 @@
                 var message = {
                     name: name,
                     text: text,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
+                    approved: false
                 };
 
                 if (useFirebase && db) {
@@ -1632,6 +1746,64 @@
                     sendBtn.disabled = false;
                 }, 3000);
             }
+
+            // ===== Admin Panel =====
+            function loadAdminPanel() {
+                if (!useFirebase || !db || !isAdmin) return;
+                db.ref('messages').orderByChild('timestamp').on('value', function(snapshot) {
+                    var pending = [];
+                    var approved = [];
+                    snapshot.forEach(function(child) {
+                        var msg = child.val();
+                        msg._key = child.key;
+                        if (msg.approved === true) {
+                            approved.push(msg);
+                        } else {
+                            pending.push(msg);
+                        }
+                    });
+                    pending.reverse();
+                    approved.reverse();
+                    renderAdminList('adminPending', pending, true);
+                    renderAdminList('adminApproved', approved, false);
+                });
+            }
+
+            function renderAdminList(containerId, messages, showActions) {
+                var container = document.getElementById(containerId);
+                if (messages.length === 0) {
+                    container.innerHTML = '<p class="admin-empty">Nenhum recado ' + (showActions ? 'pendente' : 'aprovado') + '.</p>';
+                    return;
+                }
+                container.innerHTML = messages.map(function(m) {
+                    var html = '<div class="admin-card">' +
+                        '<p class="message-author">' + escapeHtml(m.name) + '</p>' +
+                        '<p class="message-text">' + escapeHtml(m.text) + '</p>' +
+                        '<p class="message-date">' + formatDate(m.timestamp) + '</p>';
+                    if (showActions) {
+                        html += '<div class="admin-actions">' +
+                            '<button class="admin-btn admin-btn-approve" onclick="approveMessage(\'' + m._key + '\')">Aprovar</button>' +
+                            '<button class="admin-btn admin-btn-reject" onclick="rejectMessage(\'' + m._key + '\')">Excluir</button>' +
+                            '</div>';
+                    } else {
+                        html += '<div class="admin-actions">' +
+                            '<button class="admin-btn admin-btn-reject" onclick="rejectMessage(\'' + m._key + '\')">Excluir</button>' +
+                            '</div>';
+                    }
+                    html += '</div>';
+                    return html;
+                }).join('');
+            }
+
+            // Funções globais para os botões do admin
+            window.approveMessage = function(key) {
+                if (db) db.ref('messages/' + key + '/approved').set(true);
+            };
+            window.rejectMessage = function(key) {
+                if (db && confirm('Tem certeza que deseja excluir este recado?')) {
+                    db.ref('messages/' + key).remove();
+                }
+            };
 
             // Carrega mensagens locais ao iniciar
             if (!useFirebase) loadMessages();
