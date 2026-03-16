@@ -54,6 +54,10 @@
             border-radius: 4px;
         }
 
+        html {
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Cormorant Garamond', Georgia, serif;
             background: #FFF5F6;
@@ -1232,16 +1236,23 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .nav { gap: 12px; padding: 15px 15px; }
-            .nav a { font-size: 9px; letter-spacing: 2px; }
+            .nav { gap: 10px; padding: 12px 15px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+            .nav::-webkit-scrollbar { display: none; }
+            .nav a { font-size: 9px; letter-spacing: 1.5px; white-space: nowrap; flex-shrink: 0; }
+
+            .hero { padding: 50px 15px; }
+            .profile-container { width: 200px; height: 200px; }
+            .profile-container::before { inset: -12px; }
+            .profile-container::after { inset: -24px; }
 
             .timeline-line { left: 20px; }
             .timeline-item { justify-content: flex-end !important; }
             .timeline-dot { left: 20px; width: 36px; height: 36px; font-size: 12px; }
             .timeline-card { width: calc(100% - 55px); }
 
-            .countdown-container { padding: 25px 20px; }
-            .countdown { gap: 20px; }
+            .countdown-container { padding: 25px 15px; width: 100%; box-sizing: border-box; }
+            .countdown { gap: 10px; flex-wrap: nowrap; }
+            .countdown-item { min-width: 0; flex: 1; }
             .countdown-sep { display: none; }
 
             .form-row { flex-direction: column; gap: 0; }
