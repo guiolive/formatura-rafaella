@@ -22,6 +22,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Analytics -->
+    <!-- IMPORTANTE: Troque G-9FT1P7L551 pelo seu ID do Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FT1P7L551"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9FT1P7L551');
+    </script>
     <!-- Firebase para o mural de recados -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
@@ -1998,6 +2007,72 @@
                 obs.observe(el);
             });
         });
+
+            // ===== Google Analytics: Rastreamento de Eventos =====
+            if (typeof gtag === 'function') {
+                // Cliques no menu de navegação
+                document.querySelectorAll('.nav a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        gtag('event', 'click_nav', {
+                            event_category: 'navegacao',
+                            event_label: link.textContent.trim()
+                        });
+                    });
+                });
+
+                // Clique no botão de ingresso
+                var ticketBtn = document.querySelector('.ticket-button');
+                if (ticketBtn) {
+                    ticketBtn.addEventListener('click', function() {
+                        gtag('event', 'click_ingresso', {
+                            event_category: 'conversao',
+                            event_label: 'Garantir Meu Ingresso'
+                        });
+                    });
+                }
+
+                // Confirmação de presença enviada
+                var origConfirmClick = confirmPresencaBtn.onclick;
+                confirmPresencaBtn.addEventListener('click', function() {
+                    var family = familyNameInput.value.trim();
+                    if (family && members.length > 0) {
+                        gtag('event', 'confirmar_presenca', {
+                            event_category: 'conversao',
+                            event_label: family,
+                            value: members.length
+                        });
+                    }
+                });
+
+                // Recado enviado
+                sendBtn.addEventListener('click', function() {
+                    var name = nameInput.value.trim();
+                    var text = textInput.value.trim();
+                    if (name && text) {
+                        gtag('event', 'enviar_recado', {
+                            event_category: 'engajamento',
+                            event_label: name
+                        });
+                    }
+                });
+
+                // Rastrear seções visualizadas
+                var secObs = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            gtag('event', 'ver_secao', {
+                                event_category: 'navegacao',
+                                event_label: entry.target.id || entry.target.className
+                            });
+                            secObs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                document.querySelectorAll('section[id]').forEach(function(sec) {
+                    secObs.observe(sec);
+                });
+            }
     </script>
 </body>
 </html>
