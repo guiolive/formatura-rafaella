@@ -4,6 +4,10 @@
     <!-- deploy trigger -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Formatura Dra. Rafaella Chaveiro | Medicina 2026</title>
 
     <!-- Open Graph / Social -->
@@ -1601,26 +1605,44 @@
 
             let db = null;
             let useFirebase = false;
-            // Senha do painel admin — acesse o site com ?admin=rafa2027
-            var ADMIN_PASSWORD = 'rafa2027';
-            var isAdmin = new URLSearchParams(window.location.search).get('admin') === ADMIN_PASSWORD;
-
-            try {
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.database();
-                db.ref('.info/connected').on('value', function(snap) {
-                    if (snap.val() === true) {
-                        useFirebase = true;
-                        loadMessages();
-                        if (isAdmin) loadAdminPanel();
-                    }
-                });
-            } catch(e) {
-                console.log('Firebase não configurado. Usando localStorage.');
+            // Admin: acesse com ?admin=SENHA na URL
+            // Hash SHA-256 da senha (não expõe a senha no código-fonte)
+            var ADMIN_HASH = '424d5811e96ee00f948be2dda7499efc418b7338170b98d80c45e097171ba45b';
+            var adminParam = new URLSearchParams(window.location.search).get('admin') || '';
+            var isAdmin = false;
+            async function checkAdmin(input) {
+                if (!input) return false;
+                var encoder = new TextEncoder();
+                var data = encoder.encode(input);
+                var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                var hashArray = Array.from(new Uint8Array(hashBuffer));
+                var hashHex = hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+                return hashHex === ADMIN_HASH;
             }
 
-            if (isAdmin) {
-                document.getElementById('adminPanel').style.display = 'block';
+            // Verifica admin de forma async antes de inicializar
+            checkAdmin(adminParam).then(function(result) {
+                isAdmin = result;
+                if (isAdmin) {
+                    document.getElementById('adminPanel').style.display = 'block';
+                }
+                initFirebase();
+            });
+
+            function initFirebase() {
+                try {
+                    firebase.initializeApp(firebaseConfig);
+                    db = firebase.database();
+                    db.ref('.info/connected').on('value', function(snap) {
+                        if (snap.val() === true) {
+                            useFirebase = true;
+                            loadMessages();
+                            if (isAdmin) loadAdminPanel();
+                        }
+                    });
+                } catch(e) {
+                    console.log('Firebase não configurado. Usando localStorage.');
+                }
             }
 
             // Fallback: localStorage
@@ -1688,6 +1710,12 @@
                 return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
             }
 
+            // ===== Rate Limiting =====
+            var lastMessageTime = 0;
+            var MESSAGE_COOLDOWN = 30000; // 30 segundos entre mensagens
+            var lastPresencaTime = 0;
+            var PRESENCA_COOLDOWN = 60000; // 60 segundos entre confirmações
+
             // ===== Form: addEventListener + inline error =====
             var sendBtn = document.getElementById('sendBtn');
             var formError = document.getElementById('formError');
@@ -1705,8 +1733,8 @@
             });
 
             sendBtn.addEventListener('click', function() {
-                var name = nameInput.value.trim();
-                var text = textInput.value.trim();
+                var name = nameInput.value.trim().substring(0, 50);
+                var text = textInput.value.trim().substring(0, 500);
 
                 // Clear previous errors
                 nameInput.classList.remove('input-error');
@@ -1720,7 +1748,16 @@
                     return;
                 }
 
+                // Rate limiting
+                var now = Date.now();
+                if (now - lastMessageTime < MESSAGE_COOLDOWN) {
+                    formError.textContent = 'Aguarde alguns segundos antes de enviar outro recado.';
+                    formError.classList.add('visible');
+                    return;
+                }
+
                 sendBtn.disabled = true;
+                lastMessageTime = now;
 
                 var message = {
                     name: name,
@@ -1788,35 +1825,40 @@
                     container.innerHTML = '<p class="admin-empty">Nenhum recado ' + (showActions ? 'pendente' : 'aprovado') + '.</p>';
                     return;
                 }
-                container.innerHTML = messages.map(function(m) {
-                    var html = '<div class="admin-card">' +
-                        '<p class="message-author">' + escapeHtml(m.name) + '</p>' +
+                container.innerHTML = '';
+                messages.forEach(function(m) {
+                    var card = document.createElement('div');
+                    card.className = 'admin-card';
+                    card.innerHTML = '<p class="message-author">' + escapeHtml(m.name) + '</p>' +
                         '<p class="message-text">' + escapeHtml(m.text) + '</p>' +
                         '<p class="message-date">' + formatDate(m.timestamp) + '</p>';
+                    var actions = document.createElement('div');
+                    actions.className = 'admin-actions';
                     if (showActions) {
-                        html += '<div class="admin-actions">' +
-                            '<button class="admin-btn admin-btn-approve" onclick="approveMessage(\'' + m._key + '\')">Aprovar</button>' +
-                            '<button class="admin-btn admin-btn-reject" onclick="rejectMessage(\'' + m._key + '\')">Excluir</button>' +
-                            '</div>';
-                    } else {
-                        html += '<div class="admin-actions">' +
-                            '<button class="admin-btn admin-btn-reject" onclick="rejectMessage(\'' + m._key + '\')">Excluir</button>' +
-                            '</div>';
+                        var approveBtn = document.createElement('button');
+                        approveBtn.className = 'admin-btn admin-btn-approve';
+                        approveBtn.textContent = 'Aprovar';
+                        approveBtn.addEventListener('click', function() { approveMessage(m._key); });
+                        actions.appendChild(approveBtn);
                     }
-                    html += '</div>';
-                    return html;
-                }).join('');
+                    var rejectBtn = document.createElement('button');
+                    rejectBtn.className = 'admin-btn admin-btn-reject';
+                    rejectBtn.textContent = 'Excluir';
+                    rejectBtn.addEventListener('click', function() { rejectMessage(m._key); });
+                    actions.appendChild(rejectBtn);
+                    card.appendChild(actions);
+                    container.appendChild(card);
+                });
             }
 
-            // Funções globais para os botões do admin
-            window.approveMessage = function(key) {
+            function approveMessage(key) {
                 if (db) db.ref('messages/' + key + '/approved').set(true);
-            };
-            window.rejectMessage = function(key) {
+            }
+            function rejectMessage(key) {
                 if (db && confirm('Tem certeza que deseja excluir este recado?')) {
                     db.ref('messages/' + key).remove();
                 }
-            };
+            }
 
             // Carrega mensagens locais ao iniciar
             if (!useFirebase) loadMessages();
@@ -1840,9 +1882,15 @@
                 }).join('');
             }
 
+            var MAX_MEMBERS = 20;
             function addMember() {
-                var name = memberNameInput.value.trim();
+                var name = memberNameInput.value.trim().substring(0, 30);
                 if (!name) return;
+                if (members.length >= MAX_MEMBERS) {
+                    presencaError.textContent = 'Máximo de ' + MAX_MEMBERS + ' pessoas por família.';
+                    presencaError.style.display = 'block';
+                    return;
+                }
                 members.push(name);
                 memberNameInput.value = '';
                 memberNameInput.focus();
@@ -1897,7 +1945,7 @@
             }
 
             confirmPresencaBtn.addEventListener('click', function() {
-                var family = familyNameInput.value.trim();
+                var family = familyNameInput.value.trim().substring(0, 50);
                 presencaError.style.display = 'none';
 
                 if (!family || members.length === 0) {
@@ -1905,7 +1953,16 @@
                     return;
                 }
 
+                // Rate limiting
+                var now = Date.now();
+                if (now - lastPresencaTime < PRESENCA_COOLDOWN) {
+                    presencaError.textContent = 'Aguarde antes de confirmar novamente.';
+                    presencaError.style.display = 'block';
+                    return;
+                }
+
                 confirmPresencaBtn.disabled = true;
+                lastPresencaTime = now;
 
                 var presenca = {
                     family: family,
@@ -2007,8 +2064,6 @@
             document.querySelectorAll('.timeline-item, .event-card, .message-card').forEach(function(el) {
                 obs.observe(el);
             });
-        });
-
             // ===== Google Analytics: Rastreamento de Eventos =====
             if (typeof gtag === 'function') {
                 // Cliques no menu de navegação
@@ -2074,6 +2129,7 @@
                     secObs.observe(sec);
                 });
             }
+        });
     </script>
 </body>
 </html>
