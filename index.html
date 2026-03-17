@@ -39,6 +39,7 @@
     <!-- Firebase para o mural de recados -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
     <style>
         :root {
             --gold: #70020F;
@@ -733,6 +734,148 @@
             font-weight: 600;
         }
 
+        /* ===== ALBUM DE FOTOS ===== */
+        .gallery-section {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #FFF5F6 0%, #FFDEE2 100%);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            max-width: 1000px;
+            margin: 40px auto 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+
+        .gallery-loading {
+            text-align: center;
+            padding: 60px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .gallery-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+        }
+
+        /* Lightbox */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-overlay img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 8px;
+            object-fit: contain;
+            box-shadow: 0 10px 60px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            z-index: 201;
+            line-height: 1;
+        }
+
+        .lightbox-close:hover { opacity: 1; }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            padding: 20px;
+            z-index: 201;
+        }
+
+        .lightbox-nav:hover { opacity: 1; }
+        .lightbox-prev { left: 10px; }
+        .lightbox-next { right: 10px; }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            .lightbox-nav { font-size: 28px; padding: 12px; }
+            .lightbox-prev { left: 4px; }
+            .lightbox-next { right: 4px; }
+        }
+
         /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
         .ticket-section {
             padding: 120px 20px;
@@ -1288,6 +1431,7 @@
         <a href="#inicio" aria-label="Ir para Início">Início</a>
         <a href="#jornada" aria-label="Ir para Jornada">Jornada</a>
         <a href="#evento" aria-label="Ir para Eventos">Eventos</a>
+        <a href="#album" aria-label="Ir para Álbum">Álbum</a>
         <a href="#recados" aria-label="Ir para Recados">Recados</a>
         <a href="#presenca" aria-label="Ir para Presença">Presença</a>
         <a href="#ingresso" aria-label="Ir para Ingresso">Ingresso</a>
@@ -1444,6 +1588,26 @@
             </div>
         </div>
     </section>
+
+    <!-- Álbum de Fotos -->
+    <section class="gallery-section" id="album">
+        <p class="section-label">Galeria</p>
+        <h2 class="section-title">Álbum de <em>Fotos</em></h2>
+        <p class="section-subtitle">Momentos especiais dessa jornada</p>
+
+        <div id="galleryGrid" class="gallery-grid">
+            <div class="gallery-loading" id="galleryLoading">Carregando fotos...</div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" aria-label="Fechar">&times;</button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Foto anterior">&#8249;</button>
+        <img src="" alt="Foto ampliada" id="lightboxImg">
+        <button class="lightbox-nav lightbox-next" aria-label="Próxima foto">&#8250;</button>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
 
     <!-- Mural de Recados (acima do ingresso) -->
     <section class="messages-section" id="recados">
@@ -2011,6 +2175,107 @@
 
             updatePresencaCounter();
 
+            // ===== Álbum de Fotos (Firebase Storage) =====
+            var galleryPhotos = [];
+            var lightboxIndex = 0;
+
+            function loadGalleryPhotos() {
+                var grid = document.getElementById('galleryGrid');
+                var loading = document.getElementById('galleryLoading');
+
+                try {
+                    var storage = firebase.storage();
+                    var fotosRef = storage.ref('fotos');
+
+                    fotosRef.listAll().then(function(result) {
+                        if (result.items.length === 0) {
+                            loading.textContent = 'Nenhuma foto adicionada ainda.';
+                            loading.className = 'gallery-empty';
+                            return;
+                        }
+
+                        loading.style.display = 'none';
+                        galleryPhotos = [];
+
+                        var promises = result.items.map(function(itemRef) {
+                            return itemRef.getDownloadURL();
+                        });
+
+                        Promise.all(promises).then(function(urls) {
+                            galleryPhotos = urls;
+                            urls.forEach(function(url, i) {
+                                var item = document.createElement('div');
+                                item.className = 'gallery-item';
+                                var img = document.createElement('img');
+                                img.src = url;
+                                img.alt = 'Foto ' + (i + 1);
+                                img.loading = 'lazy';
+                                img.addEventListener('click', function() {
+                                    openLightbox(i);
+                                });
+                                item.appendChild(img);
+                                grid.appendChild(item);
+
+                                // Animate in with delay
+                                setTimeout(function() {
+                                    item.classList.add('visible');
+                                }, i * 80);
+                            });
+                        });
+                    }).catch(function(err) {
+                        console.log('Erro ao carregar fotos:', err);
+                        loading.textContent = 'Não foi possível carregar as fotos.';
+                        loading.className = 'gallery-empty';
+                    });
+                } catch(e) {
+                    console.log('Firebase Storage não disponível:', e);
+                    document.getElementById('galleryLoading').textContent = 'Galeria indisponível no momento.';
+                    document.getElementById('galleryLoading').className = 'gallery-empty';
+                }
+            }
+
+            // Lightbox
+            var lightboxOverlay = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var lightboxCounter = document.getElementById('lightboxCounter');
+
+            function openLightbox(index) {
+                lightboxIndex = index;
+                lightboxImg.src = galleryPhotos[index];
+                lightboxCounter.textContent = (index + 1) + ' / ' + galleryPhotos.length;
+                lightboxOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightboxOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function navigateLightbox(dir) {
+                lightboxIndex = (lightboxIndex + dir + galleryPhotos.length) % galleryPhotos.length;
+                lightboxImg.src = galleryPhotos[lightboxIndex];
+                lightboxCounter.textContent = (lightboxIndex + 1) + ' / ' + galleryPhotos.length;
+            }
+
+            lightboxOverlay.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightboxOverlay.querySelector('.lightbox-prev').addEventListener('click', function() { navigateLightbox(-1); });
+            lightboxOverlay.querySelector('.lightbox-next').addEventListener('click', function() { navigateLightbox(1); });
+
+            lightboxOverlay.addEventListener('click', function(e) {
+                if (e.target === lightboxOverlay) closeLightbox();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (!lightboxOverlay.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                if (e.key === 'ArrowRight') navigateLightbox(1);
+            });
+
+            // Load gallery after Firebase initializes
+            setTimeout(loadGalleryPhotos, 1500);
+
             // ===== Countdown (com timezone Brasília e tratamento pós-evento) =====
             var countdownInterval;
             function updateCountdown() {
@@ -2127,6 +2392,16 @@
 
                 document.querySelectorAll('section[id]').forEach(function(sec) {
                     secObs.observe(sec);
+                });
+
+                // Rastrear abertura de fotos no álbum
+                document.getElementById('galleryGrid').addEventListener('click', function(e) {
+                    if (e.target.tagName === 'IMG') {
+                        gtag('event', 'ver_foto', {
+                            event_category: 'engajamento',
+                            event_label: 'Album de Fotos'
+                        });
+                    }
                 });
             }
         });
