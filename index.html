@@ -733,6 +733,93 @@
             font-weight: 600;
         }
 
+        /* ===== Lista visual de confirmados ===== */
+        .attendees-wrap {
+            margin-top: 28px;
+            text-align: center;
+        }
+
+        .attendees-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #70020F;
+            margin-bottom: 18px;
+            opacity: 0.85;
+        }
+
+        .attendees-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .attendee-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px 6px 6px;
+            background: white;
+            border: 1px solid rgba(112,2,15,0.15);
+            border-radius: 60px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12.5px;
+            color: #2c2c2c;
+            box-shadow: 0 2px 10px rgba(112,2,15,0.05);
+            opacity: 0;
+            transform: translateY(6px);
+            animation: chipIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .attendee-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(112,2,15,0.12);
+        }
+
+        .attendee-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #70020F, #4a0008);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .attendee-more {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(112,2,15,0.08);
+            border-radius: 60px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: #70020F;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background 0.25s ease;
+        }
+
+        .attendee-more:hover {
+            background: rgba(112,2,15,0.15);
+        }
+
+        @keyframes chipIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ===== TICKET (INGRESSO SIMBOLICO) ===== */
         .ticket-section {
             padding: 120px 20px;
@@ -1543,6 +1630,11 @@
             </div>
 
             <div class="presenca-counter" id="presencaCounter"></div>
+
+            <div class="attendees-wrap" id="attendeesWrap" style="display:none;">
+                <p class="attendees-title">Quem já confirmou</p>
+                <div class="attendees-grid" id="attendeesGrid" aria-live="polite"></div>
+            </div>
         </div>
     </section>
 
@@ -1936,12 +2028,86 @@
             function showCounter(presencas) {
                 if (presencas.length === 0) {
                     presencaCounter.innerHTML = '';
+                    document.getElementById('attendeesWrap').style.display = 'none';
                     return;
                 }
                 var totalPessoas = presencas.reduce(function(sum, p) { return sum + p.members.length; }, 0);
                 presencaCounter.innerHTML = '<strong>' + presencas.length + '</strong> família' + (presencas.length > 1 ? 's' : '') +
                     ' confirmada' + (presencas.length > 1 ? 's' : '') +
                     ' &bull; <strong>' + totalPessoas + '</strong> pessoa' + (totalPessoas > 1 ? 's' : '');
+                renderAttendees(presencas);
+            }
+
+            // Remove "Família " no início do sobrenome se existir
+            function cleanFamilyName(family) {
+                return String(family || '').replace(/^fam[íi]lia\s+/i, '').trim();
+            }
+
+            // Pega só o primeiro nome do membro (caso digite mais)
+            function firstName(name) {
+                return String(name || '').trim().split(/\s+/)[0] || '';
+            }
+
+            function buildAttendees(presencas) {
+                var list = [];
+                presencas.forEach(function(p) {
+                    var sobrenome = cleanFamilyName(p.family);
+                    (p.members || []).forEach(function(m) {
+                        var primeiro = firstName(m);
+                        if (!primeiro) return;
+                        list.push({
+                            first: primeiro,
+                            last: sobrenome,
+                            ts: p.timestamp || 0
+                        });
+                    });
+                });
+                // Mais recentes primeiro
+                list.sort(function(a, b) { return b.ts - a.ts; });
+                return list;
+            }
+
+            var ATTENDEES_INITIAL = 24;
+            var attendeesExpanded = false;
+
+            function renderAttendees(presencas) {
+                var wrap = document.getElementById('attendeesWrap');
+                var grid = document.getElementById('attendeesGrid');
+                var attendees = buildAttendees(presencas);
+
+                if (attendees.length === 0) {
+                    wrap.style.display = 'none';
+                    return;
+                }
+                wrap.style.display = 'block';
+
+                var visible = attendeesExpanded ? attendees : attendees.slice(0, ATTENDEES_INITIAL);
+                var html = visible.map(function(a, i) {
+                    var label = a.last ? (a.first + ' ' + a.last) : a.first;
+                    var initial = (a.first.charAt(0) || '?').toUpperCase();
+                    var delay = Math.min(i * 30, 600);
+                    return '<span class="attendee-chip" style="animation-delay:' + delay + 'ms;">' +
+                        '<span class="attendee-avatar" aria-hidden="true">' + escapeHtml(initial) + '</span>' +
+                        escapeHtml(label) +
+                    '</span>';
+                }).join('');
+
+                var hidden = attendees.length - visible.length;
+                if (hidden > 0) {
+                    html += '<button type="button" class="attendee-more" id="attendeeMoreBtn">+' + hidden + ' mais</button>';
+                } else if (attendeesExpanded && attendees.length > ATTENDEES_INITIAL) {
+                    html += '<button type="button" class="attendee-more" id="attendeeMoreBtn">Mostrar menos</button>';
+                }
+
+                grid.innerHTML = html;
+
+                var moreBtn = document.getElementById('attendeeMoreBtn');
+                if (moreBtn) {
+                    moreBtn.addEventListener('click', function() {
+                        attendeesExpanded = !attendeesExpanded;
+                        renderAttendees(presencas);
+                    });
+                }
             }
 
             confirmPresencaBtn.addEventListener('click', function() {
