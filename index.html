@@ -1729,6 +1729,7 @@
                         if (snap.val() === true) {
                             useFirebase = true;
                             loadMessages();
+                            setupPresencasListener();
                             if (isAdmin) loadAdminPanel();
                         }
                     });
@@ -2010,18 +2011,24 @@
                 } catch(e) { return []; }
             }
 
-            function updatePresencaCounter() {
-                var presencas = [];
-                if (useFirebase && db) {
-                    db.ref('presencas').once('value', function(snapshot) {
-                        snapshot.forEach(function(child) {
-                            presencas.push(child.val());
-                        });
-                        showCounter(presencas);
+            var presencasListenerAttached = false;
+            function setupPresencasListener() {
+                if (presencasListenerAttached || !db) return;
+                presencasListenerAttached = true;
+                db.ref('presencas').on('value', function(snapshot) {
+                    var presencas = [];
+                    snapshot.forEach(function(child) {
+                        presencas.push(child.val());
                     });
-                } else {
-                    presencas = getLocalPresencas();
                     showCounter(presencas);
+                });
+            }
+
+            function updatePresencaCounter() {
+                if (useFirebase && db) {
+                    setupPresencasListener();
+                } else {
+                    showCounter(getLocalPresencas());
                 }
             }
 
