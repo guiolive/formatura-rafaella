@@ -1725,16 +1725,31 @@
                 try {
                     firebase.initializeApp(firebaseConfig);
                     db = firebase.database();
+                    useFirebase = true;
+                    loadMessages();
+                    setupPresencasListener();
+                    if (isAdmin) loadAdminPanel();
                     db.ref('.info/connected').on('value', function(snap) {
                         if (snap.val() === true) {
-                            useFirebase = true;
-                            loadMessages();
-                            setupPresencasListener();
-                            if (isAdmin) loadAdminPanel();
+                            migrateLocalStorageToFirebase();
                         }
                     });
                 } catch(e) {
                     console.log('Firebase não configurado. Usando localStorage.');
+                }
+            }
+
+            function migrateLocalStorageToFirebase() {
+                if (!db) return;
+                var localMsgs = getLocalMessages();
+                if (localMsgs.length > 0) {
+                    localMsgs.forEach(function(msg) { db.ref('messages').push(msg); });
+                    try { localStorage.removeItem('rafaella_messages'); } catch(e) {}
+                }
+                var localPres = getLocalPresencas();
+                if (localPres.length > 0) {
+                    localPres.forEach(function(p) { db.ref('presencas').push(p); });
+                    try { localStorage.removeItem('rafaella_presencas'); } catch(e) {}
                 }
             }
 
